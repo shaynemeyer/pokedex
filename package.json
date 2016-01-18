@@ -1,0 +1,27 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "description": "A Pokedex clone using reactjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "watchify src/main.jsx -v -t [babelify --presets [ react ] ] -o public/js/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "reactjs"
+  ],
+  "author": "Shayne Meyer <shayne.meyer@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "email-validator": "^1.0.3",
+    "history": "^1.17.0",
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5",
+    "react-router": "^1.0.3",
+    "reflux": "^0.3.0",
+    "watchify": "^3.6.1",
+    "whatwg-fetch": "^0.10.1"
+  }
+}
