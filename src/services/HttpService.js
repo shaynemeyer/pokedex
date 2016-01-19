@@ -1,23 +1,11 @@
 var fetch = require('whatwg-fetch');
-var baseUrl = 'http://localhost:6060';
+var baseUrl = 'http://pokeapi.co/api/v1/';
 
 var service = {
   get: function(url) {
     return fetch(baseUrl + url)
     .then(function(response){
       return response.json();
-    });
-  },
-  post: function(url, body) {
-    return fetch(baseUrl + url, {
-      headers: {
-        'Accept': 'text/plain',
-        'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify(body)
-    }).then(function(response) {
-      return response;
     });
   }
 };
