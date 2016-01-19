@@ -6,3 +6,11 @@ body {
 .container {
   background: #fff url('./images/container_bg.png');
 }
+
+#sortFilterBox li a {
+   color: #eee;
+}
+
+#sortFilterBox .dropdown-menu li > a:hover {
+    background-color: #000;
+}

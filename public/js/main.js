@@ -23252,6 +23252,7 @@ module.exports = BasePage;
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var SortByFilter = require('./forms/SortByFilter.jsx');
 
 var HomePage = React.createClass({
   displayName: 'HomePage',
@@ -23298,14 +23299,18 @@ var HomePage = React.createClass({
         )
       ),
       React.createElement('section', { id: 'searchBar', style: searchBar }),
-      React.createElement('section', { id: 'pokeResults', style: pokeResults })
+      React.createElement(
+        'section',
+        { id: 'pokeResults', style: pokeResults },
+        React.createElement(SortByFilter, null)
+      )
     );
   }
 });
 
 module.exports = HomePage;
 
-},{"react":206,"react-router":44}],211:[function(require,module,exports){
+},{"./forms/SortByFilter.jsx":212,"react":206,"react-router":44}],211:[function(require,module,exports){
 var React = require('react');
 
 var PokePage = React.createClass({
@@ -23334,9 +23339,120 @@ module.exports = PokePage;
 
 },{"react":206}],212:[function(require,module,exports){
 var React = require('react');
+
+var SortByFilter = React.createClass({
+    displayName: "SortByFilter",
+
+    getInitialState: function () {
+        return { showSortFilters: false, hover: false };
+    },
+    toggleHover: function () {
+        this.setState({ hover: !this.state.hover });
+    },
+    render: function () {
+
+        var sortFiltersShow = {
+            display: this.showSortFilters ? "block" : "none"
+        };
+
+        var sortFilterBoxStyle = {
+            width: 300
+        };
+
+        var sortItemsBox = {
+            width: 300,
+            backgroundColor: "#666"
+
+        };
+
+        var sortItemsLink = {
+            color: "#eee"
+        };
+
+        var sortItemListItemStyle = {
+            backgroundColor: this.state.hover ? "#000" : "#666"
+        };
+
+        var buttonStyle = {
+            color: "#FFF",
+            background: "#000",
+            fontWeight: "normal",
+            width: 300,
+            height: 40,
+            fontSize: 18,
+            textAlign: "left",
+            textShadow: "0 0 0 none"
+        };
+
+        return React.createElement(
+            "div",
+            { id: "sortFilterBox", style: sortFilterBoxStyle, className: "dropdown" },
+            React.createElement(
+                "button",
+                { style: buttonStyle, className: "btn", type: "button", id: "dropdownMenu1", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "true" },
+                "Sort results by…",
+                React.createElement("span", { className: "caret pull-right" })
+            ),
+            React.createElement(
+                "ul",
+                { style: sortItemsBox, className: "dropdown-menu", "aria-labelledby": "dropdownMenu1" },
+                React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "#" },
+                        "Sort results by…"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "#" },
+                        "Lowest Number (First)"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "#" },
+                        "Highest Number (First)"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "#" },
+                        "A-Z"
+                    )
+                ),
+                React.createElement(
+                    "li",
+                    null,
+                    React.createElement(
+                        "a",
+                        { href: "#" },
+                        "Z-A"
+                    )
+                )
+            )
+        );
+    }
+});
+
+module.exports = SortByFilter;
+
+},{"react":206}],213:[function(require,module,exports){
+var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":208,"react":206,"react-dom":24}]},{},[212]);
+},{"./Routes.jsx":208,"react":206,"react-dom":24}]},{},[213]);

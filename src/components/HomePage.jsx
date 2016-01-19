@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var SortByFilter = require('./forms/SortByFilter.jsx');
 
 var HomePage = React.createClass({
     render: function(){
@@ -39,10 +40,11 @@ var HomePage = React.createClass({
           </section>
           <section id="searchBar" style={searchBar}>
 
-
+            
           </section>
           <section id="pokeResults" style={pokeResults}>
-
+            
+            <SortByFilter />
           </section>
         </div>
       );

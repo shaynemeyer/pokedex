@@ -1,0 +1,7 @@
+darkslategray #494949
+whitesmoke #f5f5f5
+fireorange #fd7d24 
+cool blue #4592c4
+green #9bcc50
+purple #b97fc9
+darkgreen #729f3f

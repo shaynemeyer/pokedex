@@ -2,30 +2,64 @@ var React = require('react');
 
 
 var SortByFilter = React.createClass({
+    getInitialState: function(){
+        return {showSortFilters: false, hover: false};
+    },
+    toggleHover: function(){
+        this.setState({hover: !this.state.hover})
+    },
+    render: function() {
 
-  render: function() {
+        var sortFiltersShow = {
+            display: this.showSortFilters ? "block" : "none"
+        };
+        
+        var sortFilterBoxStyle = {
+           width: 300,
+        };
+        
+        var sortItemsBox = {
+          width: 300,
+          backgroundColor: "#666"
+          
+        };
+        
+        var sortItemsLink = {
+            color: "#eee"
+        };
+        
+        var sortItemListItemStyle = {
+            backgroundColor: this.state.hover ? "#000" : "#666"
+        }
+        
+        var buttonStyle = {
+            color: "#FFF",
+            background: "#000",
+            fontWeight: "normal",
+            width: 300, 
+            height: 40,
+            fontSize:18,
+            textAlign: "left",
+            textShadow: "0 0 0 none"
+        };
 
-    return (
-      <select id="sortOrder" style={sortOrder}>
-        <option value="noSort">Sort results by…</option>
-        <option selected="" value="numberAsc">Lowest Number (First)</option>
-        <option value="numberDesc">Highest Number (First)</option>
-        <option value="nameAsc">A-Z</option>
-        <option value="nameDesc">Z-A</option>
-      </select>
-      <div className="custom-select-menu" tabindex="0">
-        <label className="styled-select button-black icon icon_pokeball selection-made">Sort results by…</label>
-        <ul data-select-name="undefined">
-          <li data-option-value="noSort" className="selected">Sort results by…</li>
-          <li data-option-value="numberAsc" className="">Lowest Number (First)</li>
-          <li data-option-value="numberDesc" className="">Highest Number (First)</li>
-          <li data-option-value="nameAsc" className="">A-Z</li>
-          <li data-option-value="nameDesc" className="">Z-A</li>
-        </ul>
-        <input type="hidden" name="undefined" value="noSort" />
-      </div>
-    );
-  }
+        return (
+            <div id="sortFilterBox" style={sortFilterBoxStyle} className="dropdown">
+                <button style={buttonStyle} className="btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Sort results by…
+                    <span className="caret pull-right"></span>
+                </button>
+                <ul style={sortItemsBox} className="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">Sort results by…</a></li>
+                    <li><a href="#">Lowest Number (First)</a></li>
+                    <li><a href="#">Highest Number (First)</a></li>
+                    <li><a href="#">A-Z</a></li>
+                    <li><a href="#">Z-A</a></li>
+                </ul>
+            </div>
+        );
+    }
 });
 
 module.exports = SortByFilter;
+
