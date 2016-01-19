@@ -23253,6 +23253,7 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 var SortByFilter = require('./forms/SortByFilter.jsx');
+var SortRandom = require('./forms/SortRandom.jsx');
 
 var HomePage = React.createClass({
   displayName: 'HomePage',
@@ -23286,6 +23287,10 @@ var HomePage = React.createClass({
       display: "none"
     };
 
+    var buttonRowStyle = {
+      paddingTop: 20
+    };
+
     return React.createElement(
       'div',
       null,
@@ -23302,7 +23307,20 @@ var HomePage = React.createClass({
       React.createElement(
         'section',
         { id: 'pokeResults', style: pokeResults },
-        React.createElement(SortByFilter, null)
+        React.createElement(
+          'div',
+          { className: 'row', style: buttonRowStyle },
+          React.createElement(
+            'div',
+            { className: 'col-sm-5 col-sm-offset-1' },
+            React.createElement(SortRandom, null)
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-sm-5 col-sm-offset-1' },
+            React.createElement(SortByFilter, null)
+          )
+        )
       )
     );
   }
@@ -23310,7 +23328,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"./forms/SortByFilter.jsx":212,"react":206,"react-router":44}],211:[function(require,module,exports){
+},{"./forms/SortByFilter.jsx":212,"./forms/SortRandom.jsx":213,"react":206,"react-router":44}],211:[function(require,module,exports){
 var React = require('react');
 
 var PokePage = React.createClass({
@@ -23349,6 +23367,11 @@ var SortByFilter = React.createClass({
     toggleHover: function () {
         this.setState({ hover: !this.state.hover });
     },
+    filterSelect: function (e) {
+        // change text
+        var filterText = e.target.text;
+        document.getElementById("buttonText").innerHTML = filterText;
+    },
     render: function () {
 
         var sortFiltersShow = {
@@ -23384,14 +23407,27 @@ var SortByFilter = React.createClass({
             textShadow: "0 0 0 none"
         };
 
+        var sortIconStyle = {
+            fontSize: 24
+        };
+
+        var sortIconSmallStyle = {
+            fontSize: 22,
+            paddingRight: 10
+        };
+
         return React.createElement(
             "div",
             { id: "sortFilterBox", style: sortFilterBoxStyle, className: "dropdown" },
             React.createElement(
                 "button",
                 { style: buttonStyle, className: "btn", type: "button", id: "dropdownMenu1", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": "true" },
-                "Sort results by…",
-                React.createElement("span", { className: "caret pull-right" })
+                React.createElement(
+                    "span",
+                    { id: "buttonText" },
+                    "Lowest Number (First)"
+                ),
+                React.createElement("i", { style: sortIconStyle, className: "fa fa-sort pull-right" })
             ),
             React.createElement(
                 "ul",
@@ -23401,7 +23437,7 @@ var SortByFilter = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#" },
+                        { onClick: this.filterSelect, href: "#" },
                         "Sort results by…"
                     )
                 ),
@@ -23410,7 +23446,7 @@ var SortByFilter = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#" },
+                        { onClick: this.filterSelect, href: "#" },
                         "Lowest Number (First)"
                     )
                 ),
@@ -23419,7 +23455,7 @@ var SortByFilter = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#" },
+                        { onClick: this.filterSelect, href: "#" },
                         "Highest Number (First)"
                     )
                 ),
@@ -23428,7 +23464,7 @@ var SortByFilter = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#" },
+                        { onClick: this.filterSelect, href: "#" },
                         "A-Z"
                     )
                 ),
@@ -23437,7 +23473,7 @@ var SortByFilter = React.createClass({
                     null,
                     React.createElement(
                         "a",
-                        { href: "#" },
+                        { onClick: this.filterSelect, href: "#" },
                         "Z-A"
                     )
                 )
@@ -23450,9 +23486,52 @@ module.exports = SortByFilter;
 
 },{"react":206}],213:[function(require,module,exports){
 var React = require('react');
+
+var SortRandom = React.createClass({
+    displayName: "SortRandom",
+
+    render: function () {
+
+        var sortRandomBoxStyle = {
+            width: 300
+        };
+
+        var buttonStyle = {
+            color: "#FFF",
+            background: "#30a7d7",
+            fontWeight: "normal",
+            width: 300,
+            height: 40,
+            fontSize: 18,
+            textAlign: "center",
+            textShadow: "0 0 0 none"
+        };
+
+        var sortIconStyle = {
+            fontSize: 22,
+            paddingRight: 10
+        };
+
+        return React.createElement(
+            "div",
+            { id: "sortRandomBox" },
+            React.createElement(
+                "button",
+                { style: buttonStyle, className: "btn", type: "button", id: "sortRandomBtn" },
+                React.createElement("i", { style: sortIconStyle, className: "fa fa-refresh" }),
+                "Surprise Me!"
+            )
+        );
+    }
+});
+
+module.exports = SortRandom;
+
+},{"react":206}],214:[function(require,module,exports){
+var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":208,"react":206,"react-dom":24}]},{},[213]);
+},{"./Routes.jsx":208,"react":206,"react-dom":24}]},{},[214]);

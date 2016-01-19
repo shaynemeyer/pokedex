@@ -2,6 +2,7 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 var SortByFilter = require('./forms/SortByFilter.jsx');
+var SortRandom = require('./forms/SortRandom.jsx');
 
 var HomePage = React.createClass({
     render: function(){
@@ -32,6 +33,10 @@ var HomePage = React.createClass({
       var sortOrder = {
         display: "none"
       }
+      
+      var buttonRowStyle = {
+        paddingTop:20  
+      };
 
       return (
         <div>
@@ -43,8 +48,16 @@ var HomePage = React.createClass({
             
           </section>
           <section id="pokeResults" style={pokeResults}>
+            <div className="row" style={buttonRowStyle}>
+                
+                <div className="col-sm-5 col-sm-offset-1">
+                    <SortRandom />
+                </div>
+                <div className="col-sm-5 col-sm-offset-1">
+                    <SortByFilter />
+                </div>
+            </div>
             
-            <SortByFilter />
           </section>
         </div>
       );

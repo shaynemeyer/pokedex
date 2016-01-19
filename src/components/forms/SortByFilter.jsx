@@ -8,6 +8,12 @@ var SortByFilter = React.createClass({
     toggleHover: function(){
         this.setState({hover: !this.state.hover})
     },
+    filterSelect: function(e){
+      // change text 
+      var filterText = e.target.text;
+      document.getElementById("buttonText").innerHTML = filterText;
+      
+    },
     render: function() {
 
         var sortFiltersShow = {
@@ -42,19 +48,29 @@ var SortByFilter = React.createClass({
             textAlign: "left",
             textShadow: "0 0 0 none"
         };
+        
+        var sortIconStyle = {
+          fontSize: 24  
+        };
+        
+        var sortIconSmallStyle = {
+            fontSize: 22 ,
+            paddingRight: 10
+        };
 
         return (
             <div id="sortFilterBox" style={sortFilterBoxStyle} className="dropdown">
+                
                 <button style={buttonStyle} className="btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Sort results by…
-                    <span className="caret pull-right"></span>
+                    <span id="buttonText">Lowest Number (First)</span>
+                    <i style={sortIconStyle} className="fa fa-sort pull-right"></i>
                 </button>
                 <ul style={sortItemsBox} className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Sort results by…</a></li>
-                    <li><a href="#">Lowest Number (First)</a></li>
-                    <li><a href="#">Highest Number (First)</a></li>
-                    <li><a href="#">A-Z</a></li>
-                    <li><a href="#">Z-A</a></li>
+                    <li><a onClick={this.filterSelect} href="#">Sort results by…</a></li>
+                    <li><a onClick={this.filterSelect} href="#">Lowest Number (First)</a></li>
+                    <li><a onClick={this.filterSelect} href="#">Highest Number (First)</a></li>
+                    <li><a onClick={this.filterSelect} href="#">A-Z</a></li>
+                    <li><a onClick={this.filterSelect} href="#">Z-A</a></li>
                 </ul>
             </div>
         );
