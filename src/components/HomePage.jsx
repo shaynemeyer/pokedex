@@ -4,6 +4,8 @@ var Link = ReactRouter.Link;
 var SortByFilter = require('./forms/SortByFilter.jsx');
 var SortRandom = require('./forms/SortRandom.jsx');
 
+// http://www.pokemon.com/us/pokedex/
+
 var HomePage = React.createClass({
     render: function(){
       var titleStyle = {
