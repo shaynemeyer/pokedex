@@ -14,3 +14,13 @@ body {
 #sortFilterBox .dropdown-menu li > a:hover {
     color: #000;
 }
+
+#pokeResults .panel {
+  box-shadow: 0 0 0 none;
+  border-color: none;
+  border: none;
+}
+
+#pokeResults .panel-default {
+  border-color: none;
+}

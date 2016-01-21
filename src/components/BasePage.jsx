@@ -7,14 +7,12 @@ var BasePage = React.createClass({
 
         return (
             <div>
-
                 <div className="container">
                     <div className="row">
                         <div>
                             {this.props.children}
                         </div>
                     </div>
-
                 </div>
             </div>
         );
