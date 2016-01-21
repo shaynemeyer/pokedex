@@ -75,7 +75,7 @@ var HomePage = React.createClass({
               </div>
             </div>
 
-            <div style={PokeListRowStyle}>
+            <div id="poke-list" style={PokeListRowStyle}>
               <PokeList />
             </div>
 

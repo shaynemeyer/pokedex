@@ -7,7 +7,7 @@ var imageUrlBase = "http://pokeapi.co/media/img/";
 var PokeListItem = React.createClass({
     render: function(){
       var abilities = this.props.types.map(function(item){
-          return <span>{item.name}</span>;
+          return <button className={`btn background-color-${item.name}`}>{item.name}</button>;
       });
         var PanelWrapperStyle = {
           paddingLeft: 0,
