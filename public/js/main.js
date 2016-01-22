@@ -18098,7 +18098,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.6';
+module.exports = '0.14.5';
 },{}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22358,21 +22358,15 @@ module.exports = focusNode;
  * @typechecks
  */
 
-/* eslint-disable fb-www/typeof-undefined */
-
 /**
  * Same as document.activeElement but wraps in a try-catch block. In IE it is
  * not safe to call document.activeElement if there is nothing focused.
  *
- * The activeElement will be null only if the document or document body is not
- * yet defined.
+ * The activeElement will be null only if the document body is not yet defined.
  */
-'use strict';
+"use strict";
 
 function getActiveElement() /*?DOMElement*/{
-  if (typeof document === 'undefined') {
-    return null;
-  }
   try {
     return document.activeElement || document.body;
   } catch (e) {
@@ -24887,9 +24881,11 @@ module.exports = PokeListItem;
 
 },{"react":206,"react-router":44}],232:[function(require,module,exports){
 var React = require('react');
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
 
 var PokePage = React.createClass({
-  displayName: "PokePage",
+  displayName: 'PokePage',
 
   getInitialState: function () {
     return { pokeId: "" };
@@ -24901,18 +24897,107 @@ var PokePage = React.createClass({
     this.setState({ pid: nextProps.params.pokeId });
   },
   render: function () {
+    var PreviousStyle = {
+      borderRight: "4px solid #fff",
+      margin: 0
+    };
+
+    var PaginationPokeId = {
+      fontFamily: "Flexo-Bold,arial,sans-serif",
+      color: "#fff",
+      fontSize: "150%",
+      lineHeight: "162.5%",
+      textTransform: "none"
+    };
+
+    var PaginationPokeName = {
+      color: "#616161",
+      margin: "0 0.5em",
+      fontSize: "150%",
+      lineHeight: "162.5%",
+      textTransform: "none"
+    };
+
+    var PaginationArrow = {
+      fontSize: 20,
+      color: "#FFF"
+    };
+
+    var PokeTitle = {
+      fontFamily: "Flexo-Medium,arial,sans-serif",
+      color: "#212121",
+      fontSize: "225%",
+      marginTop: "0.5em",
+      textAlign: "center",
+      width: "100%",
+      wordBreak: "break-word"
+    };
+
+    var PokeNameStyle = {};
+
+    var PokeNumberStyle = {
+      color: "#616161",
+      marginLeft: "0.125em"
+    };
+
     return React.createElement(
-      "h1",
-      null,
-      "Hi, I'm Pokédex number ",
-      this.state.pid
+      'div',
+      { className: 'poke-detail-wrapper' },
+      React.createElement(
+        'section',
+        { id: 'poke-nav', className: 'pokemon-pagination' },
+        React.createElement(
+          Link,
+          { style: PreviousStyle, to: `/pokemon/720` },
+          React.createElement('i', { className: 'fa fa-chevron-circle-left', style: PaginationArrow }),
+          React.createElement(
+            'span',
+            { style: PaginationPokeId, className: '' },
+            '#720'
+          ),
+          React.createElement(
+            'span',
+            { style: PaginationPokeName, className: '' },
+            'Hoopa'
+          )
+        ),
+        React.createElement(
+          Link,
+          { to: `/pokemon/720` },
+          React.createElement(
+            'span',
+            { style: PaginationPokeId, className: '' },
+            '#2'
+          ),
+          React.createElement(
+            'span',
+            { style: PaginationPokeName, className: '' },
+            'Ivysaur'
+          ),
+          React.createElement('i', { className: 'fa fa-chevron-circle-right', style: PaginationArrow })
+        )
+      ),
+      React.createElement(
+        'section',
+        { id: 'poke-title', style: PokeTitle },
+        React.createElement(
+          'span',
+          { style: PokeNameStyle },
+          'Pokesaur'
+        ),
+        React.createElement(
+          'span',
+          { style: PokeNumberStyle },
+          '#1'
+        )
+      )
     );
   }
 });
 
 module.exports = PokePage;
 
-},{"react":206}],233:[function(require,module,exports){
+},{"react":206,"react-router":44}],233:[function(require,module,exports){
 var React = require('react');
 
 var SortByFilter = React.createClass({
