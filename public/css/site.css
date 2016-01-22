@@ -95,6 +95,14 @@ body {
   color: #fff;
 }
 
+.margin-right {
+  margin-right: 10px;
+}
+
+.margin-left {
+  margin-left: 10px;
+}
+
 /* Pokemon Details */
 
 .pokemon-pagination a {
@@ -105,4 +113,12 @@ body {
     float: left;
     width: 50%;
     text-decoration: none;
+}
+
+.pokedex-pokemon-pagination-wrapper {
+  float: left;
+  margin-left:0;
+  padding: 1em 0 4em;
+  width: 100%;
+  max-width: 448px;
 }

@@ -24897,6 +24897,14 @@ var PokePage = React.createClass({
     this.setState({ pid: nextProps.params.pokeId });
   },
   render: function () {
+    var WrapperStyle = {
+      background: "#FFF",
+      marginLeft: 50,
+      marginRight: 50,
+      minHeight: "700px",
+      marginTop: -16
+    };
+
     var PreviousStyle = {
       borderRight: "4px solid #fff",
       margin: 0
@@ -24940,55 +24948,89 @@ var PokePage = React.createClass({
       marginLeft: "0.125em"
     };
 
+    var PokeDetailWrapperStyle = {
+      marginTop: 20
+    };
+
     return React.createElement(
       'div',
-      { className: 'poke-detail-wrapper' },
+      null,
       React.createElement(
         'section',
         { id: 'poke-nav', className: 'pokemon-pagination' },
         React.createElement(
           Link,
           { style: PreviousStyle, to: `/pokemon/720` },
-          React.createElement('i', { className: 'fa fa-chevron-circle-left', style: PaginationArrow }),
           React.createElement(
-            'span',
-            { style: PaginationPokeId, className: '' },
-            '#720'
-          ),
-          React.createElement(
-            'span',
-            { style: PaginationPokeName, className: '' },
-            'Hoopa'
+            'div',
+            { className: 'pokedex-pokemon-pagination-wrapper pull-right' },
+            React.createElement('i', { className: 'fa fa-chevron-circle-left margin-right', style: PaginationArrow }),
+            React.createElement(
+              'span',
+              { style: PaginationPokeId, className: '' },
+              '#720'
+            ),
+            React.createElement(
+              'span',
+              { style: PaginationPokeName, className: '' },
+              'Hoopa'
+            )
           )
         ),
         React.createElement(
           Link,
           { to: `/pokemon/720` },
           React.createElement(
-            'span',
-            { style: PaginationPokeId, className: '' },
-            '#2'
-          ),
-          React.createElement(
-            'span',
-            { style: PaginationPokeName, className: '' },
-            'Ivysaur'
-          ),
-          React.createElement('i', { className: 'fa fa-chevron-circle-right', style: PaginationArrow })
+            'div',
+            { className: 'pokedex-pokemon-pagination-wrapper pull-right' },
+            React.createElement(
+              'span',
+              { style: PaginationPokeName, className: '' },
+              'Ivysaur'
+            ),
+            React.createElement(
+              'span',
+              { style: PaginationPokeId, className: '' },
+              '#2'
+            ),
+            React.createElement('i', { className: 'fa fa-chevron-circle-right margin-left', style: PaginationArrow })
+          )
         )
       ),
       React.createElement(
-        'section',
-        { id: 'poke-title', style: PokeTitle },
+        'div',
+        { className: 'poke-detail-wrapper', style: WrapperStyle },
         React.createElement(
-          'span',
-          { style: PokeNameStyle },
-          'Pokesaur'
+          'section',
+          { id: 'poke-title', style: PokeTitle },
+          React.createElement(
+            'span',
+            { style: PokeNameStyle },
+            'Bulbasaur'
+          ),
+          React.createElement(
+            'span',
+            { style: PokeNumberStyle },
+            '#1'
+          )
         ),
         React.createElement(
-          'span',
-          { style: PokeNumberStyle },
-          '#1'
+          'section',
+          { id: 'pokemon-detail-section', style: PokeDetailWrapperStyle },
+          React.createElement(
+            'div',
+            { className: 'col-xs-6' },
+            React.createElement('img', { src: `/images/Pokemon/hd/1.png` })
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-xs-6' },
+            React.createElement(
+              'p',
+              null,
+              'Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun\'s rays, the seed grows progressively larger.'
+            )
+          )
         )
       )
     );
