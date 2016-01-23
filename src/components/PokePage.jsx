@@ -99,10 +99,61 @@ var PokePage = React.createClass({
                   <div className="col-xs-6">
                     <img src={`/images/Pokemon/hd/1.png`} />
                   </div>
-                  <div className="col-xs-6">
+                  <div className="version-descriptions col-xs-6">
                     <p>
-Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.
+                    Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.
                     </p>
+
+                    <div className="pokemon-ability-info color-bg color-lightblue">
+                      <div className="row">
+                        <div className="col-xs-6">
+                          <ul>
+                            <li>
+                              <span className="attribute-title">Height</span>
+                              <span className="attribute-value">2' 04"</span>
+                            </li>
+
+                            <li>
+                              <span className="attribute-title">Weight</span>
+                              <span className="attribute-value">15.2 lbs</span>
+                            </li>
+
+                            <li>
+                              <span className="attribute-title">Gender</span>
+                              <span className="attribute-value">
+                                <i className="fa fa-mars"></i>
+                                <i className="fa fa-venus"></i>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="col-xs-6">
+                          <ul>
+                            <li>
+                              <span className="attribute-title">Category</span>
+                              <span className="attribute-value">Seed</span>
+                            </li>
+                            <li>
+                              <span className="attribute-title">Abilities</span>
+
+                              <ul className="attribute-list">
+
+                                <li>
+                                  <a href="" className="moreInfo">
+                                    <span className="attribute-value">Overgrow</span>
+                                    <i className="fa fa-question-circle"></i>
+                                  </a>
+                                </li>
+
+                              </ul>
+
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
                 </section>
               </div>

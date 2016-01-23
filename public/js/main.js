@@ -25024,11 +25024,119 @@ var PokePage = React.createClass({
           ),
           React.createElement(
             'div',
-            { className: 'col-xs-6' },
+            { className: 'version-descriptions col-xs-6' },
             React.createElement(
               'p',
               null,
               'Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun\'s rays, the seed grows progressively larger.'
+            ),
+            React.createElement(
+              'div',
+              { className: 'pokemon-ability-info color-bg color-lightblue' },
+              React.createElement(
+                'div',
+                { className: 'row' },
+                React.createElement(
+                  'div',
+                  { className: 'col-xs-6' },
+                  React.createElement(
+                    'ul',
+                    null,
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-title' },
+                        'Height'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-value' },
+                        '2\' 04"'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-title' },
+                        'Weight'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-value' },
+                        '15.2 lbs'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-title' },
+                        'Gender'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-value' },
+                        React.createElement('i', { className: 'fa fa-mars' }),
+                        React.createElement('i', { className: 'fa fa-venus' })
+                      )
+                    )
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'col-xs-6' },
+                  React.createElement(
+                    'ul',
+                    null,
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-title' },
+                        'Category'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-value' },
+                        'Seed'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'attribute-title' },
+                        'Abilities'
+                      ),
+                      React.createElement(
+                        'ul',
+                        { className: 'attribute-list' },
+                        React.createElement(
+                          'li',
+                          null,
+                          React.createElement(
+                            'a',
+                            { href: '', className: 'moreInfo' },
+                            React.createElement(
+                              'span',
+                              { className: 'attribute-value' },
+                              'Overgrow'
+                            ),
+                            React.createElement('i', { className: 'fa fa-question-circle' })
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
             )
           )
         )
