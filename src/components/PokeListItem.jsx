@@ -2,7 +2,7 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 
-var imageUrlBase = "http://pokeapi.co/media/img/";
+var imageUrlBase = "/images/Pokemon/hd/";
 
 var PokeListItem = React.createClass({
     render: function(){
@@ -58,7 +58,7 @@ var PokeListItem = React.createClass({
               <Link to={`/pokemon/${this.props.pid}`}>
                 <div className="panel-heading">
                   <figure style={FigureStyle}>
-                    <img src={`${imageUrlBase}${this.props.pid}.png`} width="75%" style={ImageStyle} />
+                    <img src={`${imageUrlBase}${this.props.pid}.png`} width="75%" alt={this.props.name} style={ImageStyle} />
                   </figure>
                 </div>
                 <div className="panel-body">

@@ -92,10 +92,10 @@ var pokeListData = [
 
 var PokeList = React.createClass({
     getInitialState: function(){
-      return {pokelist:pokeListData}
+      return {pokelist:[]}
     },
     componentWillMount: function() {
-      //Actions.getPokedex();
+      Actions.getPokedex();
     },
     render: function(){
         var listItems = this.state.pokelist.map(function(item){

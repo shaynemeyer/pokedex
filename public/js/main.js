@@ -24753,10 +24753,10 @@ var PokeList = React.createClass({
   displayName: 'PokeList',
 
   getInitialState: function () {
-    return { pokelist: pokeListData };
+    return { pokelist: [] };
   },
   componentWillMount: function () {
-    //Actions.getPokedex();
+    Actions.getPokedex();
   },
   render: function () {
     var listItems = this.state.pokelist.map(function (item) {
@@ -24777,7 +24777,7 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 
-var imageUrlBase = "http://pokeapi.co/media/img/";
+var imageUrlBase = "/images/Pokemon/hd/";
 
 var PokeListItem = React.createClass({
   displayName: 'PokeListItem',
@@ -24844,7 +24844,7 @@ var PokeListItem = React.createClass({
           React.createElement(
             'figure',
             { style: FigureStyle },
-            React.createElement('img', { src: `${ imageUrlBase }${ this.props.pid }.png`, width: '75%', style: ImageStyle })
+            React.createElement('img', { src: `${ imageUrlBase }${ this.props.pid }.png`, width: '75%', alt: this.props.name, style: ImageStyle })
           )
         ),
         React.createElement(
@@ -25539,7 +25539,7 @@ ReactDOM.render(Routes, document.getElementById('main'));
 },{"./Routes.jsx":227,"react":206,"react-dom":24}],236:[function(require,module,exports){
 var Reflux = require('reflux');
 
-var Actions = Reflux.createActions(['getPokedex']);
+var Actions = Reflux.createActions(['getPokedex', 'getPokeTypes']);
 
 module.exports = Actions;
 

@@ -1,17 +1,25 @@
-var HTTP = require('../services/HttpService.js');
+var HTTP = require('../services/HttpService');
 var Reflux = require('reflux');
 var Actions = require('./Actions.jsx');
 
 // http://pokeapi.co/docs/#pokemon
-var pokedexUrl = "/pokedex/1/";
+var pokedexUrl = "api/v1/pokedex/1/";
+var pokemonUrl = "api/v1/pokemon/";
 
 var PokeStore = Reflux.createStore({
     listenables: [Actions],
-    getPokedex: function(filter){
-        HTTP.post(pokedexUrl, filter)
+    getPokedex: function() {
+        HTTP.get(pokedexUrl)
         .then(function(response){
-
+          //this.pokelist = response["pokemon"];
+          console.log(response);
         }.bind(this));
+    },
+    getPokeTypes: function(pid) {
+      HTTP.get(pokemonUrl + pid + "/")
+      .then(function(response) {
+
+      }.bind(this));
     }
 });
 
