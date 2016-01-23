@@ -120,7 +120,6 @@ ul, ol {
 }
 
 .pokedex-pokemon-pagination-wrapper {
-  float: left;
   margin-left:0;
   padding: 1em 0 4em;
   width: 100%;
@@ -130,12 +129,37 @@ ul, ol {
   margin-top: 20px;
   font-size: 18px;
 }
+
+.pokedex-pokemon-attributes ul {
+  clear: both;
+  float: left;
+  width: 100%;
+}
+
+.pokedex-pokemon-attributes li {
+  float: left;
+  margin-right: -100%;
+  width: 32.29%;
+  border-radius: 5px;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+  text-align: center;
+}
+
 .pokemon-ability-info {
   border-radius: 10px;
   display: block;
   min-height: 100px;
   width: 100%;
   margin-top: 20px;
+}
+
+.pokemon-ability-info ul {
+  margin-left: -40px;
+}
+
+.pokemon-ability-info ul ul{
+  margin-left: 0;
 }
 
 .pokemon-ability-info i {
@@ -182,4 +206,257 @@ a.moreInfo .attribute-value {
 
 a.moreInfo:hover {
   text-decoration: none;
+}
+
+/* Pokemon Stats */
+.pokemon-stats-info {
+  background-color: #a4a4a4;
+  border-radius: 10px;
+  display: block;
+  margin: 1em 0;
+  width: 100%;
+  min-height: 150px;
+}
+
+.pokemon-stats-info ul {
+  margin-left: -40px;
+}
+
+.pokemon-stats-info h3 {
+  font-family: "Flexo-Medium",arial,sans-serif;
+  clear: both;
+  color: #313131;
+  font-size: 100%;
+  margin: 0.75em 1.5em 1.5em;
+  text-transform: none;
+  padding-top: 20px;
+  margin-bottom: 0;
+}
+
+.pokemon-stats-info .row {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.pokemon-stats-info .stat-info-title {
+  font-family: "Flexo-Medium",arial,sans-serif;
+  clear: both;
+  color: #fff;
+  font-size: 100%;
+  margin: 1.25em 0 0 0;
+  text-transform: none;
+  white-space: normal;
+  word-break: break-word;
+  display: block;
+}
+
+.pokemon-stats-info .stat-info-value {
+  font-family: "Flexo-Medium",arial,sans-serif;
+  clear: both;
+  color: #212121;
+  font-size: 125%;
+  margin: 0.75em 0 0 0;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.pokedex-pokemon-attributes li span {
+  font-family: "Flexo-Medium",arial,sans-serif;
+  color: white;
+  display: block;
+  float: left;
+  line-height: 100%;
+  padding: 0.5em 0;
+  width: 100%;
+}
+
+.pokedex-pokemon-attributes li.middle {
+    margin-left: 1.5625%;
+    margin-right: 1.5625%;
+}
+
+.explore-more-button {
+  margin-top: 50px;
+  margin-right: 30px;
+}
+
+/* background colors */
+.background-color-Grass {
+  background: -webkit-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
+  background: -ms-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
+  background: -moz-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
+  background: -o-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
+  background: linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
+  background-color: #9bcc50;
+  color: #212121;
+}
+
+.background-color-Poison {
+    background: -webkit-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
+    background: -ms-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
+    background: -moz-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
+    background: -o-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
+    background: linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
+    background-color: #b97fc9;
+    color: #fff;
+}
+
+.background-color-Fire {
+    background: -webkit-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
+    background: -ms-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
+    background: -moz-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
+    background: -o-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
+    background: linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
+    background-color: #fd7d24;
+    color: #fff;
+}
+
+.background-color-Flying {
+    background: -webkit-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+    background: -ms-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+    background: -moz-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+    background: -o-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+    background: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+    background-color: #3dc7ef;
+    color: #212121;
+}
+
+.background-color-Ice {
+    background: -webkit-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
+    background: -ms-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
+    background: -moz-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
+    background: -o-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
+    background: linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
+    background-color: #51c4e7;
+    color: #212121;
+}
+
+.background-color-Psychic {
+    background: -webkit-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
+    background: -ms-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
+    background: -moz-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
+    background: -o-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
+    background: linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
+    background-color: #f366b9;
+    color: #fff;
+}
+
+.background-color-Ground {
+    background: -webkit-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+    background: -ms-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+    background: -moz-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+    background: -o-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+    background: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+    background-color: #f7de3f;
+    color: #212121;
+}
+
+.background-color-Rock {
+    background: -webkit-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
+    background: -ms-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
+    background: -moz-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
+    background: -o-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
+    background: linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
+    background-color: #a38c21;
+    color: #fff;
+}
+
+.background-color-Water {
+    background: -webkit-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
+    background: -ms-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
+    background: -moz-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
+    background: -o-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
+    background: linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
+    background-color: #4592c4;
+    color: #fff;
+}
+
+.background-color-Bug {
+    background: -webkit-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
+    background: -ms-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
+    background: -moz-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
+    background: -o-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
+    background: linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
+    background-color: #729f3f;
+}
+
+.background-color-Electric {
+    background: -webkit-linear-gradient(180deg, #eed535 50%, #eed535 50%);
+    background: -ms-linear-gradient(180deg, #eed535 50%, #eed535 50%);
+    background: -moz-linear-gradient(180deg, #eed535 50%, #eed535 50%);
+    background: -o-linear-gradient(180deg, #eed535 50%, #eed535 50%);
+    background: linear-gradient(180deg, #eed535 50%, #eed535 50%);
+    background-color: #eed535;
+    color: #212121;
+}
+
+
+.background-color-Dragon {
+    background: -webkit-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+    background: -ms-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+    background: -moz-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+    background: -o-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+    background: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+    background-color: #53a4cf;
+    color: #fff;
+}
+
+.background-color-Fairy {
+    background: -webkit-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
+    background: -ms-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
+    background: -moz-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
+    background: -o-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
+    background: linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
+    background-color: #fdb9e9;
+    color: #212121;
+}
+
+.background-color-Steel {
+    background: -webkit-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
+    background: -ms-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
+    background: -moz-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
+    background: -o-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
+    background: linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
+    background-color: #9eb7b8;
+    color: #212121;
+}
+
+.background-color-Normal {
+    background: -webkit-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
+    background: -ms-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
+    background: -moz-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
+    background: -o-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
+    background: linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
+    background-color: #a4acaf;
+    color: #212121;
+}
+
+.background-color-Fighting {
+    background: -webkit-linear-gradient(180deg, #d56723 50%, #d56723 50%);
+    background: -ms-linear-gradient(180deg, #d56723 50%, #d56723 50%);
+    background: -moz-linear-gradient(180deg, #d56723 50%, #d56723 50%);
+    background: -o-linear-gradient(180deg, #d56723 50%, #d56723 50%);
+    background: linear-gradient(180deg, #d56723 50%, #d56723 50%);
+    background-color: #d56723;
+    color: #fff;
+}
+
+.background-color-Ghost {
+    background: -webkit-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
+    background: -ms-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
+    background: -moz-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
+    background: -o-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
+    background: linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
+    background-color: #7b62a3;
+    color: #fff;
+}
+
+.background-color-Dark {
+    background: -webkit-linear-gradient(180deg, #707070 50%, #707070 50%);
+    background: -ms-linear-gradient(180deg, #707070 50%, #707070 50%);
+    background: -moz-linear-gradient(180deg, #707070 50%, #707070 50%);
+    background: -o-linear-gradient(180deg, #707070 50%, #707070 50%);
+    background: linear-gradient(180deg, #707070 50%, #707070 50%);
+    background-color: #707070;
+    color: #fff;
 }

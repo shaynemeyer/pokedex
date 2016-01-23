@@ -17,7 +17,7 @@ var PokePage = React.createClass({
           background: "#FFF",
           marginLeft: 50,
           marginRight: 50,
-          minHeight: "700px",
+          minHeight: "900px",
           marginTop:-16
         };
 
@@ -81,7 +81,7 @@ var PokePage = React.createClass({
                   </div>
                 </Link>
 
-                <Link to={`/pokemon/720`}>
+                <Link to={`/pokemon/2`}>
                   <div className="pokedex-pokemon-pagination-wrapper pull-right">
                     <span style={PaginationPokeName} className="">Ivysaur</span>
                     <span style={PaginationPokeId} className="">#2</span>
@@ -97,7 +97,47 @@ var PokePage = React.createClass({
 
                 <section id="pokemon-detail-section" style={PokeDetailWrapperStyle}>
                   <div className="col-xs-6">
-                    <img src={`/images/Pokemon/hd/1.png`} />
+                    <div className="pokedex-pokemon-profile">
+                      <img src={`/images/Pokemon/hd/${this.state.pid}.png`} />
+                    </div>
+
+                    <div className="pokedex-pokemon-attributes">
+                      <div className="dtm-type">
+                        <h3>Type</h3>
+                        <ul>
+                          <li className="background-color-Grass">
+                            <span>Grass</span>
+                          </li>
+
+                          <li className="background-color-Poison middle">
+                            <span>Poison</span>
+                          </li>
+
+                        </ul>
+                      </div>
+
+                      <div className="dtm-weaknesses">
+                        <h3>Weaknesses</h3>
+                        <ul>
+
+                          <li className="background-color-Fire first">
+                            <span>Fire</span>
+                          </li>
+
+                          <li className="background-color-Flying middle">
+                            <span>Flying</span>
+                          </li>
+
+                          <li className="background-color-Ice last">
+                            <span>Ice</span>
+                          </li>
+
+                          <li className="background-color-Psychic first">
+                            <span>Psychic</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                   <div className="version-descriptions col-xs-6">
                     <p>
@@ -131,8 +171,8 @@ var PokePage = React.createClass({
                         <div className="col-xs-6">
                           <ul>
                             <li>
-                              <span className="attribute-title">Category</span>
-                              <span className="attribute-value">Seed</span>
+                              <span className="attribute-title">Species</span>
+                              <span className="attribute-value">Seed Pokemon</span>
                             </li>
                             <li>
                               <span className="attribute-title">Abilities</span>
@@ -154,9 +194,55 @@ var PokePage = React.createClass({
                       </div>
 
                     </div>
+
+                    <div className="pokemon-stats-info">
+                      <h3>Stats</h3>
+                      <div className="row">
+
+                        <div className="col-xs-6">
+                          <ul>
+                            <li>
+                              <span className="stat-info-title">HP</span>
+                              <span className="stat-info-value">45</span>
+                            </li>
+                            <li>
+                              <span className="stat-info-title">Attack</span>
+                              <span className="stat-info-value">49</span>
+                            </li>
+                            <li>
+                              <span className="stat-info-title">Defense</span>
+                              <span className="stat-info-value">49</span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="col-xs-6">
+                          <ul>
+                            <li>
+                              <span className="stat-info-title">Special Attack</span>
+                              <span className="stat-info-value">65</span>
+                            </li>
+                            <li>
+                              <span className="stat-info-title">Special Defense</span>
+                              <span className="stat-info-value">65</span>
+                            </li>
+                            <li>
+                              <span className="stat-info-title">Speed</span>
+                              <span className="stat-info-value">45</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </section>
+
+                <section>
+                  <Link to="/" className="btn btn-warning pull-right explore-more-button">Explore More Pokémon</Link>
+                </section>
               </div>
+
+
             </div>
         );
     }

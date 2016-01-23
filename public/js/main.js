@@ -24901,7 +24901,7 @@ var PokePage = React.createClass({
       background: "#FFF",
       marginLeft: 50,
       marginRight: 50,
-      minHeight: "700px",
+      minHeight: "900px",
       marginTop: -16
     };
 
@@ -24979,7 +24979,7 @@ var PokePage = React.createClass({
         ),
         React.createElement(
           Link,
-          { to: `/pokemon/720` },
+          { to: `/pokemon/2` },
           React.createElement(
             'div',
             { className: 'pokedex-pokemon-pagination-wrapper pull-right' },
@@ -25020,7 +25020,95 @@ var PokePage = React.createClass({
           React.createElement(
             'div',
             { className: 'col-xs-6' },
-            React.createElement('img', { src: `/images/Pokemon/hd/1.png` })
+            React.createElement(
+              'div',
+              { className: 'pokedex-pokemon-profile' },
+              React.createElement('img', { src: `/images/Pokemon/hd/${ this.state.pid }.png` })
+            ),
+            React.createElement(
+              'div',
+              { className: 'pokedex-pokemon-attributes' },
+              React.createElement(
+                'div',
+                { className: 'dtm-type' },
+                React.createElement(
+                  'h3',
+                  null,
+                  'Type'
+                ),
+                React.createElement(
+                  'ul',
+                  null,
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Grass' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Grass'
+                    )
+                  ),
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Poison middle' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Poison'
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'dtm-weaknesses' },
+                React.createElement(
+                  'h3',
+                  null,
+                  'Weaknesses'
+                ),
+                React.createElement(
+                  'ul',
+                  null,
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Fire first' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Fire'
+                    )
+                  ),
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Flying middle' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Flying'
+                    )
+                  ),
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Ice last' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Ice'
+                    )
+                  ),
+                  React.createElement(
+                    'li',
+                    { className: 'background-color-Psychic first' },
+                    React.createElement(
+                      'span',
+                      null,
+                      'Psychic'
+                    )
+                  )
+                )
+              )
+            )
           ),
           React.createElement(
             'div',
@@ -25099,12 +25187,12 @@ var PokePage = React.createClass({
                       React.createElement(
                         'span',
                         { className: 'attribute-title' },
-                        'Category'
+                        'Species'
                       ),
                       React.createElement(
                         'span',
                         { className: 'attribute-value' },
-                        'Seed'
+                        'Seed Pokemon'
                       )
                     ),
                     React.createElement(
@@ -25137,7 +25225,129 @@ var PokePage = React.createClass({
                   )
                 )
               )
+            ),
+            React.createElement(
+              'div',
+              { className: 'pokemon-stats-info' },
+              React.createElement(
+                'h3',
+                null,
+                'Stats'
+              ),
+              React.createElement(
+                'div',
+                { className: 'row' },
+                React.createElement(
+                  'div',
+                  { className: 'col-xs-6' },
+                  React.createElement(
+                    'ul',
+                    null,
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'HP'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '45'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'Attack'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '49'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'Defense'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '49'
+                      )
+                    )
+                  )
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'col-xs-6' },
+                  React.createElement(
+                    'ul',
+                    null,
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'Special Attack'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '65'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'Special Defense'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '65'
+                      )
+                    ),
+                    React.createElement(
+                      'li',
+                      null,
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-title' },
+                        'Speed'
+                      ),
+                      React.createElement(
+                        'span',
+                        { className: 'stat-info-value' },
+                        '45'
+                      )
+                    )
+                  )
+                )
+              )
             )
+          )
+        ),
+        React.createElement(
+          'section',
+          null,
+          React.createElement(
+            Link,
+            { to: '/', className: 'btn btn-warning pull-right explore-more-button' },
+            'Explore More Pokémon'
           )
         )
       )
