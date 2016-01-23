@@ -11,8 +11,7 @@ var PokeStore = Reflux.createStore({
     getPokedex: function() {
         HTTP.get(pokedexUrl)
         .then(function(response){
-          //this.pokelist = response["pokemon"];
-          console.log(response);
+          this.pokelist = response;
         }.bind(this));
     },
     getPokeTypes: function(pid) {

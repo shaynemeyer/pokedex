@@ -24601,7 +24601,7 @@ var HomePage = React.createClass({
 
     var searchBar = {
       background: "#313131",
-      height: 200
+      height: 80
     };
 
     var pokeResults = {
