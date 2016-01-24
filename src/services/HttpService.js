@@ -1,4 +1,5 @@
-var fetch = require('whatwg-fetch');
+var Fetch = require('whatwg-fetch');
+//var baseUrl = 'http://localhost:6060/';
 var baseUrl = 'http://pokeapi.co/';
 
 var service = {

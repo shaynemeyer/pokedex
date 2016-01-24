@@ -24514,6 +24514,389 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],227:[function(require,module,exports){
+(function() {
+  'use strict';
+
+  if (self.fetch) {
+    return
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name)
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value)
+    }
+    return value
+  }
+
+  function Headers(headers) {
+    this.map = {}
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value)
+      }, this)
+
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name])
+      }, this)
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name)
+    value = normalizeValue(value)
+    var list = this.map[name]
+    if (!list) {
+      list = []
+      this.map[name] = list
+    }
+    list.push(value)
+  }
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)]
+  }
+
+  Headers.prototype.get = function(name) {
+    var values = this.map[normalizeName(name)]
+    return values ? values[0] : null
+  }
+
+  Headers.prototype.getAll = function(name) {
+    return this.map[normalizeName(name)] || []
+  }
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  }
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = [normalizeValue(value)]
+  }
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+      this.map[name].forEach(function(value) {
+        callback.call(thisArg, value, name, this)
+      }, this)
+    }, this)
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result)
+      }
+      reader.onerror = function() {
+        reject(reader.error)
+      }
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader()
+    reader.readAsArrayBuffer(blob)
+    return fileReaderReady(reader)
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader()
+    reader.readAsText(blob)
+    return fileReaderReady(reader)
+  }
+
+  var support = {
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob();
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  }
+
+  function Body() {
+    this.bodyUsed = false
+
+
+    this._initBody = function(body) {
+      this._bodyInit = body
+      if (typeof body === 'string') {
+        this._bodyText = body
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body
+      } else if (!body) {
+        this._bodyText = ''
+      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+        // Only support ArrayBuffers for POST method.
+        // Receiving ArrayBuffers happens via Blobs, instead.
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+    }
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      }
+
+      this.arrayBuffer = function() {
+        return this.blob().then(readBlobAsArrayBuffer)
+      }
+
+      this.text = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return readBlobAsText(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as text')
+        } else {
+          return Promise.resolve(this._bodyText)
+        }
+      }
+    } else {
+      this.text = function() {
+        var rejected = consumed(this)
+        return rejected ? rejected : Promise.resolve(this._bodyText)
+      }
+    }
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      }
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    }
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase()
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {}
+    var body = options.body
+    if (Request.prototype.isPrototypeOf(input)) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url
+      this.credentials = input.credentials
+      if (!options.headers) {
+        this.headers = new Headers(input.headers)
+      }
+      this.method = input.method
+      this.mode = input.mode
+      if (!body) {
+        body = input._bodyInit
+        input.bodyUsed = true
+      }
+    } else {
+      this.url = input
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit'
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers)
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET')
+    this.mode = options.mode || this.mode || null
+    this.referrer = null
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body)
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this)
+  }
+
+  function decode(body) {
+    var form = new FormData()
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=')
+        var name = split.shift().replace(/\+/g, ' ')
+        var value = split.join('=').replace(/\+/g, ' ')
+        form.append(decodeURIComponent(name), decodeURIComponent(value))
+      }
+    })
+    return form
+  }
+
+  function headers(xhr) {
+    var head = new Headers()
+    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
+    pairs.forEach(function(header) {
+      var split = header.trim().split(':')
+      var key = split.shift().trim()
+      var value = split.join(':').trim()
+      head.append(key, value)
+    })
+    return head
+  }
+
+  Body.call(Request.prototype)
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {}
+    }
+
+    this._initBody(bodyInit)
+    this.type = 'default'
+    this.status = options.status
+    this.ok = this.status >= 200 && this.status < 300
+    this.statusText = options.statusText
+    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+    this.url = options.url || ''
+  }
+
+  Body.call(Response.prototype)
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  }
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''})
+    response.type = 'error'
+    return response
+  }
+
+  var redirectStatuses = [301, 302, 303, 307, 308]
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  }
+
+  self.Headers = Headers;
+  self.Request = Request;
+  self.Response = Response;
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request
+      if (Request.prototype.isPrototypeOf(input) && !init) {
+        request = input
+      } else {
+        request = new Request(input, init)
+      }
+
+      var xhr = new XMLHttpRequest()
+
+      function responseURL() {
+        if ('responseURL' in xhr) {
+          return xhr.responseURL
+        }
+
+        // Avoid security warnings on getResponseHeader when not allowed by CORS
+        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+          return xhr.getResponseHeader('X-Request-URL')
+        }
+
+        return;
+      }
+
+      xhr.onload = function() {
+        var status = (xhr.status === 1223) ? 204 : xhr.status
+        if (status < 100 || status > 599) {
+          reject(new TypeError('Network request failed'))
+          return
+        }
+        var options = {
+          status: status,
+          statusText: xhr.statusText,
+          headers: headers(xhr),
+          url: responseURL()
+        }
+        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+        resolve(new Response(body, options))
+      }
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.open(request.method, request.url, true)
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob'
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value)
+      })
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+    })
+  }
+  self.fetch.polyfill = true
+})();
+
+},{}],228:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
@@ -24543,7 +24926,7 @@ var Routes = React.createElement(
 
 module.exports = Routes;
 
-},{"./components/BasePage.jsx":228,"./components/HomePage.jsx":229,"./components/PokePage.jsx":232,"history/lib/createHashHistory":7,"react":206,"react-router":44}],228:[function(require,module,exports){
+},{"./components/BasePage.jsx":229,"./components/HomePage.jsx":230,"./components/PokePage.jsx":233,"history/lib/createHashHistory":7,"react":206,"react-router":44}],229:[function(require,module,exports){
 var React = require('react');
 
 var BasePage = React.createClass({
@@ -24573,7 +24956,7 @@ var BasePage = React.createClass({
 
 module.exports = BasePage;
 
-},{"react":206}],229:[function(require,module,exports){
+},{"react":206}],230:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -24686,68 +25069,25 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"./PokeList.jsx":230,"./forms/SortByFilter.jsx":233,"./forms/SortRandom.jsx":234,"react":206,"react-router":44}],230:[function(require,module,exports){
+},{"./PokeList.jsx":231,"./forms/SortByFilter.jsx":234,"./forms/SortRandom.jsx":235,"react":206,"react-router":44}],231:[function(require,module,exports){
 var React = require('react');
+var Reflux = require('reflux');
 var PokeListItem = require('./PokeListItem.jsx');
-var Actions = require('../reflux/Actions.jsx');
+//var Actions = require('../reflux/Actions.jsx');
+//var PokeStore = require('../reflux/PokeStore.jsx');
+var HTTP = require('../services/HttpService');
 
-var pokeListData = [{
-  "name": "Bulbasaur",
-  "pid": "1",
-  "types": [{
-    "name": "Grass"
-  }, {
-    "name": "Poison"
-  }]
-}, {
-  "name": "Ivysaur",
-  "pid": "2",
-  "types": [{
-    "name": "Grass"
-  }, {
-    "name": "Poison"
-  }]
-}, {
-  "name": "Venusaur",
-  "pid": "3",
-  "types": [{
-    "name": "Grass"
-  }, {
-    "name": "Poison"
-  }]
-}, {
-  "name": "Charmander",
-  "pid": "4",
-  "types": [{
-    "name": "Fire"
-  }]
-}, {
-  "name": "Charmeleon",
-  "pid": "5",
-  "types": [{
-    "name": "Fire"
-  }]
-}, {
-  "name": "Charizard",
-  "pid": "6",
-  "types": [{
-    "name": "Fire"
-  }, {
-    "name": "Flying"
-  }]
-}, {
-  "name": "Squirtle",
-  "pid": "7",
-  "types": [{
-    "name": "Water"
-  }]
-}, {
-  "name": "Squirtle",
-  "pid": "8",
-  "types": [{
-    "name": "Water"
-  }]
-}];
+function extractPid(url) {
+  var pid = "";
+  pid = url.replace('api/v1/pokemon/', "").replace("/", "");
+  return pid;
+};
+
+function getTypes(pid) {
+  var arr = [{ "name": "Grass" }, { "name": "Poison" }];
+
+  return arr;
+}
 
 var PokeList = React.createClass({
   displayName: 'PokeList',
@@ -24756,9 +25096,24 @@ var PokeList = React.createClass({
     return { pokelist: [] };
   },
   componentWillMount: function () {
-    Actions.getPokedex();
+    //Actions.getPokedex();
+    var pokedexUrl = 'api/v1/pokedex/1/';
+    HTTP.get(pokedexUrl).then((function (data) {
+      var arr = [];
+
+      for (var pokemon in data.pokemon) {
+        var name = data.pokemon[pokemon]["name"];
+        var pid = extractPid(data.pokemon[pokemon]["resource_uri"]);
+        if (pid <= 720) {
+          // we only have images for up to 720 so only include those pokemon.
+          arr.push({ "name": name, "pid": pid, "types": getTypes(pid) }); // todo: add fetch types.
+        }
+      }
+      this.setState({ pokelist: arr });
+    }).bind(this));
   },
   render: function () {
+    //console.log(this.state.pokelist);
     var listItems = this.state.pokelist.map(function (item) {
       return React.createElement(PokeListItem, { key: item.pid, pid: item.pid, name: item.name, types: item.types });
     });
@@ -24772,7 +25127,7 @@ var PokeList = React.createClass({
 
 module.exports = PokeList;
 
-},{"../reflux/Actions.jsx":236,"./PokeListItem.jsx":231,"react":206}],231:[function(require,module,exports){
+},{"../services/HttpService":237,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -24879,7 +25234,7 @@ var PokeListItem = React.createClass({
 
 module.exports = PokeListItem;
 
-},{"react":206,"react-router":44}],232:[function(require,module,exports){
+},{"react":206,"react-router":44}],233:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25357,7 +25712,7 @@ var PokePage = React.createClass({
 
 module.exports = PokePage;
 
-},{"react":206,"react-router":44}],233:[function(require,module,exports){
+},{"react":206,"react-router":44}],234:[function(require,module,exports){
 var React = require('react');
 
 var SortByFilter = React.createClass({
@@ -25486,7 +25841,7 @@ var SortByFilter = React.createClass({
 
 module.exports = SortByFilter;
 
-},{"react":206}],234:[function(require,module,exports){
+},{"react":206}],235:[function(require,module,exports){
 var React = require('react');
 
 var SortRandom = React.createClass({
@@ -25529,18 +25884,26 @@ var SortRandom = React.createClass({
 
 module.exports = SortRandom;
 
-},{"react":206}],235:[function(require,module,exports){
+},{"react":206}],236:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":227,"react":206,"react-dom":24}],236:[function(require,module,exports){
-var Reflux = require('reflux');
+},{"./Routes.jsx":228,"react":206,"react-dom":24}],237:[function(require,module,exports){
+var Fetch = require('whatwg-fetch');
+//var baseUrl = 'http://localhost:6060/';
+var baseUrl = 'http://pokeapi.co/';
 
-var Actions = Reflux.createActions(['getPokedex', 'getPokeTypes']);
+var service = {
+  get: function (url) {
+    return fetch(baseUrl + url).then(function (response) {
+      return response.json();
+    });
+  }
+};
 
-module.exports = Actions;
+module.exports = service;
 
-},{"reflux":223}]},{},[235]);
+},{"whatwg-fetch":227}]},{},[236]);
