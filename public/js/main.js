@@ -24920,7 +24920,7 @@ var Routes = React.createElement(
         Route,
         { path: '/', component: BasePage },
         React.createElement(IndexRoute, { component: HomePage }),
-        React.createElement(Route, { path: '/pokemon/:pokeId', component: PokePage })
+        React.createElement(Route, { path: '/pokemon/:pid', component: PokePage })
     )
 );
 
@@ -25260,15 +25260,22 @@ var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var HTTP = require('../services/HttpService');
 
 var PokePage = React.createClass({
   displayName: 'PokePage',
 
   getInitialState: function () {
-    return { pokeId: "" };
+    return { pid: "", pokedata: [] };
   },
   componentDidMount: function () {
-    this.setState({ pid: this.props.params.pokeId });
+    this.setState({ pid: this.props.params.pid });
+    var pokemonUrl = `api/v1/pokemon/${ this.props.params.pid }/`;
+    HTTP.get(pokemonUrl).then((function (data) {
+      if (this.isMounted()) {
+        this.setState({ pokedata: data });
+      }
+    }).bind(this));
   },
   componentWillReceiveProps: function (nextProps) {
     this.setState({ pid: nextProps.params.pokeId });
@@ -25648,7 +25655,7 @@ var PokePage = React.createClass({
 
 module.exports = PokePage;
 
-},{"./details/PokePic.jsx":234,"./details/Types.jsx":235,"./details/Weaknesses.jsx":236,"react":206,"react-router":44}],234:[function(require,module,exports){
+},{"../services/HttpService":241,"./details/PokePic.jsx":234,"./details/Types.jsx":235,"./details/Weaknesses.jsx":236,"react":206,"react-router":44}],234:[function(require,module,exports){
 var React = require('react');
 
 var PokePic = React.createClass({

@@ -4,13 +4,21 @@ var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var HTTP = require('../services/HttpService');
 
 var PokePage = React.createClass({
     getInitialState: function(){
-      return {pokeId: ""};
+      return {pid: "",pokedata: []};
     },
     componentDidMount: function() {
-      this.setState({pid: this.props.params.pokeId});
+      this.setState({pid: this.props.params.pid});
+      var pokemonUrl = `api/v1/pokemon/${this.props.params.pid}/`;
+      HTTP.get(pokemonUrl)
+      .then(function(data){
+        if (this.isMounted()) {
+          this.setState({pokedata: data});
+        }
+      }.bind(this));
     },
     componentWillReceiveProps: function(nextProps){
       this.setState({pid: nextProps.params.pokeId});
@@ -75,6 +83,7 @@ var PokePage = React.createClass({
 
         return (
             <div>
+
               <section id="poke-nav" className="pokemon-pagination">
                 <Link style={PreviousStyle} to={`/pokemon/720`}>
                   <div className="pokedex-pokemon-pagination-wrapper pull-right">

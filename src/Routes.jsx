@@ -18,7 +18,7 @@ var Routes = (
     <Router history={History}>
         <Route path="/" component={BasePage}>
             <IndexRoute component={HomePage} />
-            <Route path="/pokemon/:pokeId" component={PokePage} />
+            <Route path="/pokemon/:pid" component={PokePage} />
         </Route>
     </Router>
 );
