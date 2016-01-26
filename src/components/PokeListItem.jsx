@@ -1,12 +1,28 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var HTTP = require('../services/HttpService');
 
 var imageUrlBase = "/images/Pokemon/hd/";
 
 var PokeListItem = React.createClass({
+    getInitialState: function(){
+      return {types:[]}
+    },
+    getPokeTypes: function(pid){
+      var pokemonUrl = `api/v1/pokemon/${pid}/`;
+      var types = [];
+
+      HTTP.get(pokemonUrl)
+      .then(function(data){
+        this.setState({types: data["types"]});
+      }.bind(this));
+    },
+    componentWillMount: function() {
+      this.getPokeTypes(this.props.pid);
+    },
     render: function(){
-      var abilities = this.props.types.map(function(item){
+      var abilities = this.state.types.map(function(item){
           return <button className={`btn background-color-${item.name}`}>{item.name}</button>;
       });
         var PanelWrapperStyle = {
@@ -45,7 +61,7 @@ var PokeListItem = React.createClass({
         var NameStyle = {
           fontFamily: "arial,sans-serif",
           color: "#313131",
-          textTransform: "none",
+          textTransform: "capitalize",
           marginBottom: 5
         };
 

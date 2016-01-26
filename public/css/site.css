@@ -281,7 +281,7 @@ a.moreInfo:hover {
 }
 
 /* background colors */
-.background-color-Grass {
+.background-color-grass {
   background: -webkit-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
   background: -ms-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
   background: -moz-linear-gradient(180deg, #9bcc50 50%, #9bcc50 50%);
@@ -291,7 +291,7 @@ a.moreInfo:hover {
   color: #212121;
 }
 
-.background-color-Poison {
+.background-color-poison {
     background: -webkit-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
     background: -ms-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
     background: -moz-linear-gradient(180deg, #b97fc9 50%, #b97fc9 50%);
@@ -301,7 +301,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Fire {
+.background-color-fire {
     background: -webkit-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
     background: -ms-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
     background: -moz-linear-gradient(180deg, #fd7d24 50%, #fd7d24 50%);
@@ -311,7 +311,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Flying {
+.background-color-flying {
     background: -webkit-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
     background: -ms-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
     background: -moz-linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
@@ -321,7 +321,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Ice {
+.background-color-ice {
     background: -webkit-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
     background: -ms-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
     background: -moz-linear-gradient(180deg, #51c4e7 50%, #51c4e7 50%);
@@ -331,7 +331,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Psychic {
+.background-color-psychic {
     background: -webkit-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
     background: -ms-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
     background: -moz-linear-gradient(180deg, #f366b9 50%, #f366b9 50%);
@@ -341,7 +341,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Ground {
+.background-color-ground {
     background: -webkit-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
     background: -ms-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
     background: -moz-linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
@@ -351,7 +351,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Rock {
+.background-color-rock {
     background: -webkit-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
     background: -ms-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
     background: -moz-linear-gradient(180deg, #a38c21 50%, #a38c21 50%);
@@ -361,7 +361,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Water {
+.background-color-water {
     background: -webkit-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
     background: -ms-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
     background: -moz-linear-gradient(180deg, #4592c4 50%, #4592c4 50%);
@@ -371,7 +371,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Bug {
+.background-color-bug {
     background: -webkit-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
     background: -ms-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
     background: -moz-linear-gradient(180deg, #729f3f 50%, #729f3f 50%);
@@ -380,7 +380,7 @@ a.moreInfo:hover {
     background-color: #729f3f;
 }
 
-.background-color-Electric {
+.background-color-electric {
     background: -webkit-linear-gradient(180deg, #eed535 50%, #eed535 50%);
     background: -ms-linear-gradient(180deg, #eed535 50%, #eed535 50%);
     background: -moz-linear-gradient(180deg, #eed535 50%, #eed535 50%);
@@ -391,7 +391,7 @@ a.moreInfo:hover {
 }
 
 
-.background-color-Dragon {
+.background-color-dragon {
     background: -webkit-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
     background: -ms-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
     background: -moz-linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
@@ -401,7 +401,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Fairy {
+.background-color-fairy {
     background: -webkit-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
     background: -ms-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
     background: -moz-linear-gradient(180deg, #fdb9e9 50%, #fdb9e9 50%);
@@ -411,7 +411,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Steel {
+.background-color-steel {
     background: -webkit-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
     background: -ms-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
     background: -moz-linear-gradient(180deg, #9eb7b8 50%, #9eb7b8 50%);
@@ -421,7 +421,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Normal {
+.background-color-normal {
     background: -webkit-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
     background: -ms-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
     background: -moz-linear-gradient(180deg, #a4acaf 50%, #a4acaf 50%);
@@ -431,7 +431,7 @@ a.moreInfo:hover {
     color: #212121;
 }
 
-.background-color-Fighting {
+.background-color-fighting {
     background: -webkit-linear-gradient(180deg, #d56723 50%, #d56723 50%);
     background: -ms-linear-gradient(180deg, #d56723 50%, #d56723 50%);
     background: -moz-linear-gradient(180deg, #d56723 50%, #d56723 50%);
@@ -441,7 +441,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Ghost {
+.background-color-ghost {
     background: -webkit-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
     background: -ms-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
     background: -moz-linear-gradient(180deg, #7b62a3 50%, #7b62a3 50%);
@@ -451,7 +451,7 @@ a.moreInfo:hover {
     color: #fff;
 }
 
-.background-color-Dark {
+.background-color-dark {
     background: -webkit-linear-gradient(180deg, #707070 50%, #707070 50%);
     background: -ms-linear-gradient(180deg, #707070 50%, #707070 50%);
     background: -moz-linear-gradient(180deg, #707070 50%, #707070 50%);
