@@ -107,6 +107,17 @@ ul, ol {
   margin-left: 10px;
 }
 
+/* search box */
+#search-box {
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-left: 40px;
+}
+
+#search-box input[type="text"] {
+  margin-right: 10px;
+}
+
 /* Pokemon Details */
 
 .pokemon-pagination a {

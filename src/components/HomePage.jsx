@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var SearchPokemon = require('./forms/SearchPokemon.jsx');
 var SortByFilter = require('./forms/SortByFilter.jsx');
 var SortRandom = require('./forms/SortRandom.jsx');
 var PokeList = require('./PokeList.jsx');
@@ -8,6 +9,9 @@ var PokeList = require('./PokeList.jsx');
 // http://www.pokemon.com/us/pokedex/
 
 var HomePage = React.createClass({
+    onRandomize: function(e){
+      console.log("randomized clicked");
+    },
     render: function(){
       var titleStyle = {
         color: "#919191",
@@ -47,10 +51,7 @@ var HomePage = React.createClass({
         paddingRight:20
       };
 
-      var SearchBoxStyle = {
-        paddingTop: 20,
-        paddingLeft: 20
-      };
+
 
       return (
         <div>
@@ -58,11 +59,7 @@ var HomePage = React.createClass({
             <div style={titleStyle}>Pokédex</div>
           </section>
           <section id="searchBar" style={searchBar}>
-            <div style={SearchBoxStyle}>
-              <label>Name or Number</label>
-              <input type="text" />
-              <input type="submit" className="btn btn-warning" value="Search" id="search" />
-              </div>
+            <SearchPokemon />
           </section>
           <section id="pokeResults" style={pokeResults}>
             <div className="row" style={buttonRowStyle}>

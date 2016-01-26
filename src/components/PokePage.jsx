@@ -1,6 +1,9 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var PokePic = require('./details/PokePic.jsx');
+var Types = require('./details/Types.jsx');
+var Weaknesses = require('./details/Weaknesses.jsx');
 
 var PokePage = React.createClass({
     getInitialState: function(){
@@ -97,47 +100,13 @@ var PokePage = React.createClass({
 
                 <section id="pokemon-detail-section" style={PokeDetailWrapperStyle}>
                   <div className="col-xs-6">
-                    <div className="pokedex-pokemon-profile">
-                      <img src={`/images/Pokemon/hd/${this.state.pid}.png`} />
-                    </div>
 
-                    <div className="pokedex-pokemon-attributes">
-                      <div className="dtm-type">
-                        <h3>Type</h3>
-                        <ul>
-                          <li className="background-color-Grass">
-                            <span>Grass</span>
-                          </li>
+                    <PokePic pid={this.state.pid} />
 
-                          <li className="background-color-Poison middle">
-                            <span>Poison</span>
-                          </li>
+                    <Types />
 
-                        </ul>
-                      </div>
+                    <Weaknesses />
 
-                      <div className="dtm-weaknesses">
-                        <h3>Weaknesses</h3>
-                        <ul>
-
-                          <li className="background-color-Fire first">
-                            <span>Fire</span>
-                          </li>
-
-                          <li className="background-color-Flying middle">
-                            <span>Flying</span>
-                          </li>
-
-                          <li className="background-color-Ice last">
-                            <span>Ice</span>
-                          </li>
-
-                          <li className="background-color-Psychic first">
-                            <span>Psychic</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
                   </div>
                   <div className="version-descriptions col-xs-6">
                     <p>

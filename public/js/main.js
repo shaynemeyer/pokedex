@@ -24960,6 +24960,7 @@ module.exports = BasePage;
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var SearchPokemon = require('./forms/SearchPokemon.jsx');
 var SortByFilter = require('./forms/SortByFilter.jsx');
 var SortRandom = require('./forms/SortRandom.jsx');
 var PokeList = require('./PokeList.jsx');
@@ -24969,6 +24970,9 @@ var PokeList = require('./PokeList.jsx');
 var HomePage = React.createClass({
   displayName: 'HomePage',
 
+  onRandomize: function (e) {
+    console.log("randomized clicked");
+  },
   render: function () {
     var titleStyle = {
       color: "#919191",
@@ -25008,11 +25012,6 @@ var HomePage = React.createClass({
       paddingRight: 20
     };
 
-    var SearchBoxStyle = {
-      paddingTop: 20,
-      paddingLeft: 20
-    };
-
     return React.createElement(
       'div',
       null,
@@ -25028,17 +25027,7 @@ var HomePage = React.createClass({
       React.createElement(
         'section',
         { id: 'searchBar', style: searchBar },
-        React.createElement(
-          'div',
-          { style: SearchBoxStyle },
-          React.createElement(
-            'label',
-            null,
-            'Name or Number'
-          ),
-          React.createElement('input', { type: 'text' }),
-          React.createElement('input', { type: 'submit', className: 'btn btn-warning', value: 'Search', id: 'search' })
-        )
+        React.createElement(SearchPokemon, null)
       ),
       React.createElement(
         'section',
@@ -25069,7 +25058,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"./PokeList.jsx":231,"./forms/SortByFilter.jsx":234,"./forms/SortRandom.jsx":235,"react":206,"react-router":44}],231:[function(require,module,exports){
+},{"./PokeList.jsx":231,"./forms/SearchPokemon.jsx":237,"./forms/SortByFilter.jsx":238,"./forms/SortRandom.jsx":239,"react":206,"react-router":44}],231:[function(require,module,exports){
 var React = require('react');
 var Reflux = require('reflux');
 var PokeListItem = require('./PokeListItem.jsx');
@@ -25140,7 +25129,7 @@ var PokeList = React.createClass({
 
 module.exports = PokeList;
 
-},{"../services/HttpService":237,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
+},{"../services/HttpService":241,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25264,10 +25253,13 @@ var PokeListItem = React.createClass({
 
 module.exports = PokeListItem;
 
-},{"../services/HttpService":237,"react":206,"react-router":44}],233:[function(require,module,exports){
+},{"../services/HttpService":241,"react":206,"react-router":44}],233:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
+var PokePic = require('./details/PokePic.jsx');
+var Types = require('./details/Types.jsx');
+var Weaknesses = require('./details/Weaknesses.jsx');
 
 var PokePage = React.createClass({
   displayName: 'PokePage',
@@ -25405,95 +25397,9 @@ var PokePage = React.createClass({
           React.createElement(
             'div',
             { className: 'col-xs-6' },
-            React.createElement(
-              'div',
-              { className: 'pokedex-pokemon-profile' },
-              React.createElement('img', { src: `/images/Pokemon/hd/${ this.state.pid }.png` })
-            ),
-            React.createElement(
-              'div',
-              { className: 'pokedex-pokemon-attributes' },
-              React.createElement(
-                'div',
-                { className: 'dtm-type' },
-                React.createElement(
-                  'h3',
-                  null,
-                  'Type'
-                ),
-                React.createElement(
-                  'ul',
-                  null,
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Grass' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Grass'
-                    )
-                  ),
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Poison middle' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Poison'
-                    )
-                  )
-                )
-              ),
-              React.createElement(
-                'div',
-                { className: 'dtm-weaknesses' },
-                React.createElement(
-                  'h3',
-                  null,
-                  'Weaknesses'
-                ),
-                React.createElement(
-                  'ul',
-                  null,
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Fire first' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Fire'
-                    )
-                  ),
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Flying middle' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Flying'
-                    )
-                  ),
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Ice last' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Ice'
-                    )
-                  ),
-                  React.createElement(
-                    'li',
-                    { className: 'background-color-Psychic first' },
-                    React.createElement(
-                      'span',
-                      null,
-                      'Psychic'
-                    )
-                  )
-                )
-              )
-            )
+            React.createElement(PokePic, { pid: this.state.pid }),
+            React.createElement(Types, null),
+            React.createElement(Weaknesses, null)
           ),
           React.createElement(
             'div',
@@ -25742,7 +25648,158 @@ var PokePage = React.createClass({
 
 module.exports = PokePage;
 
-},{"react":206,"react-router":44}],234:[function(require,module,exports){
+},{"./details/PokePic.jsx":234,"./details/Types.jsx":235,"./details/Weaknesses.jsx":236,"react":206,"react-router":44}],234:[function(require,module,exports){
+var React = require('react');
+
+var PokePic = React.createClass({
+	displayName: "PokePic",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ className: "pokedex-pokemon-profile" },
+			React.createElement("img", { src: `/images/Pokemon/hd/${ this.props.pid }.png` })
+		);
+	}
+});
+
+module.exports = PokePic;
+
+},{"react":206}],235:[function(require,module,exports){
+var React = require('react');
+
+var Types = React.createClass({
+	displayName: "Types",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ className: "pokedex-pokemon-attributes" },
+			React.createElement(
+				"div",
+				{ className: "dtm-type" },
+				React.createElement(
+					"h3",
+					null,
+					"Type"
+				),
+				React.createElement(
+					"ul",
+					null,
+					React.createElement(
+						"li",
+						{ className: "background-color-Grass" },
+						React.createElement(
+							"span",
+							null,
+							"Grass"
+						)
+					),
+					React.createElement(
+						"li",
+						{ className: "background-color-Poison middle" },
+						React.createElement(
+							"span",
+							null,
+							"Poison"
+						)
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = Types;
+
+},{"react":206}],236:[function(require,module,exports){
+var React = require('react');
+
+var Weaknesses = React.createClass({
+	displayName: "Weaknesses",
+
+	render: function () {
+		return React.createElement(
+			"div",
+			{ className: "dtm-weaknesses" },
+			React.createElement(
+				"h3",
+				null,
+				"Weaknesses"
+			),
+			React.createElement(
+				"ul",
+				null,
+				React.createElement(
+					"li",
+					{ className: "background-color-Fire first" },
+					React.createElement(
+						"span",
+						null,
+						"Fire"
+					)
+				),
+				React.createElement(
+					"li",
+					{ className: "background-color-Flying middle" },
+					React.createElement(
+						"span",
+						null,
+						"Flying"
+					)
+				),
+				React.createElement(
+					"li",
+					{ className: "background-color-Ice last" },
+					React.createElement(
+						"span",
+						null,
+						"Ice"
+					)
+				),
+				React.createElement(
+					"li",
+					{ className: "background-color-Psychic first" },
+					React.createElement(
+						"span",
+						null,
+						"Psychic"
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = Weaknesses;
+
+},{"react":206}],237:[function(require,module,exports){
+var React = require('react');
+
+var SearchPokemon = React.createClass({
+  displayName: "SearchPokemon",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { id: "search-box", className: "form-inline" },
+      React.createElement(
+        "div",
+        { className: "form-group" },
+        React.createElement("input", { type: "text", className: "form-control", placeholder: "Name or Number" })
+      ),
+      React.createElement(
+        "div",
+        { className: "form-group" },
+        React.createElement("input", { type: "submit", className: "btn btn-warning", value: "Search", id: "search" })
+      )
+    );
+  }
+});
+
+module.exports = SearchPokemon;
+
+},{"react":206}],238:[function(require,module,exports){
 var React = require('react');
 
 var SortByFilter = React.createClass({
@@ -25758,6 +25815,7 @@ var SortByFilter = React.createClass({
         // change text
         var filterText = e.target.text;
         document.getElementById("buttonText").innerHTML = filterText;
+        console.log("Filter: " + filterText);
     },
     render: function () {
 
@@ -25871,12 +25929,15 @@ var SortByFilter = React.createClass({
 
 module.exports = SortByFilter;
 
-},{"react":206}],235:[function(require,module,exports){
+},{"react":206}],239:[function(require,module,exports){
 var React = require('react');
 
 var SortRandom = React.createClass({
     displayName: "SortRandom",
 
+    onRandomize: function (e) {
+        console.log("randomized clicked");
+    },
     render: function () {
 
         var sortRandomBoxStyle = {
@@ -25904,7 +25965,7 @@ var SortRandom = React.createClass({
             { id: "sortRandomBox" },
             React.createElement(
                 "button",
-                { style: buttonStyle, className: "btn", type: "button", id: "sortRandomBtn" },
+                { style: buttonStyle, className: "btn", type: "button", id: "sortRandomBtn", onClick: this.onRandomize },
                 React.createElement("i", { style: sortIconStyle, className: "fa fa-refresh" }),
                 "Surprise Me!"
             )
@@ -25914,14 +25975,14 @@ var SortRandom = React.createClass({
 
 module.exports = SortRandom;
 
-},{"react":206}],236:[function(require,module,exports){
+},{"react":206}],240:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":228,"react":206,"react-dom":24}],237:[function(require,module,exports){
+},{"./Routes.jsx":228,"react":206,"react-dom":24}],241:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 //var baseUrl = 'http://localhost:6060/';
 var baseUrl = 'http://pokeapi.co/';
@@ -25936,4 +25997,4 @@ var service = {
 
 module.exports = service;
 
-},{"whatwg-fetch":227}]},{},[236]);
+},{"whatwg-fetch":227}]},{},[240]);
