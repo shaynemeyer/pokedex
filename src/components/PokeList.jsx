@@ -48,6 +48,8 @@ var PokeList = React.createClass({
               arr.push({"name": name,"pid": pid,"types": []}); // todo: add fetch types.
             }
         }
+
+        // now sort the array by pokemon id, lowest to highest.
         var sortedArray = arr.sort(function(a,b){return a.pid-b.pid});
         this.setState({pokelist:sortedArray});
       }.bind(this));

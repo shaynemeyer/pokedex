@@ -15,7 +15,9 @@ var PokeListItem = React.createClass({
 
       HTTP.get(pokemonUrl)
       .then(function(data){
-        this.setState({types: data["types"]});
+        if (this.isMounted()) {
+          this.setState({types: data["types"]});
+        }
       }.bind(this));
     },
     componentWillMount: function() {

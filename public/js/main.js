@@ -25118,6 +25118,8 @@ var PokeList = React.createClass({
           arr.push({ "name": name, "pid": pid, "types": [] }); // todo: add fetch types.
         }
       }
+
+      // now sort the array by pokemon id, lowest to highest.
       var sortedArray = arr.sort(function (a, b) {
         return a.pid - b.pid;
       });
@@ -25157,7 +25159,9 @@ var PokeListItem = React.createClass({
     var types = [];
 
     HTTP.get(pokemonUrl).then((function (data) {
-      this.setState({ types: data["types"] });
+      if (this.isMounted()) {
+        this.setState({ types: data["types"] });
+      }
     }).bind(this));
   },
   componentWillMount: function () {
