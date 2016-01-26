@@ -18098,7 +18098,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.5';
+module.exports = '0.14.6';
 },{}],135:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -22358,15 +22358,21 @@ module.exports = focusNode;
  * @typechecks
  */
 
+/* eslint-disable fb-www/typeof-undefined */
+
 /**
  * Same as document.activeElement but wraps in a try-catch block. In IE it is
  * not safe to call document.activeElement if there is nothing focused.
  *
- * The activeElement will be null only if the document body is not yet defined.
+ * The activeElement will be null only if the document or document body is not
+ * yet defined.
  */
-"use strict";
+'use strict';
 
 function getActiveElement() /*?DOMElement*/{
+  if (typeof document === 'undefined') {
+    return null;
+  }
   try {
     return document.activeElement || document.body;
   } catch (e) {
@@ -25058,7 +25064,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"./PokeList.jsx":231,"./forms/SearchPokemon.jsx":237,"./forms/SortByFilter.jsx":238,"./forms/SortRandom.jsx":239,"react":206,"react-router":44}],231:[function(require,module,exports){
+},{"./PokeList.jsx":231,"./forms/SearchPokemon.jsx":239,"./forms/SortByFilter.jsx":240,"./forms/SortRandom.jsx":241,"react":206,"react-router":44}],231:[function(require,module,exports){
 var React = require('react');
 var Reflux = require('reflux');
 var PokeListItem = require('./PokeListItem.jsx');
@@ -25081,7 +25087,7 @@ var PokeList = React.createClass({
   componentWillMount: function () {
     //Actions.getPokedex();
     var pokedexUrl = 'api/v1/pokedex/1/';
-    HTTP.get(pokedexUrl).then((function (data) {
+    HTTP.get(pokedexUrl).then(function (data) {
       var arr = [];
 
       for (var pokemon in data.pokemon) {
@@ -25093,10 +25099,10 @@ var PokeList = React.createClass({
         }
       }
       this.setState({ pokelist: arr });
-    }).bind(this));
+    }.bind(this));
 
     var pokedexUrl = 'api/v1/pokedex/1/';
-    HTTP.get(pokedexUrl).then((function (data) {
+    HTTP.get(pokedexUrl).then(function (data) {
       var arr = [];
 
       for (var pokemon in data.pokemon) {
@@ -25113,7 +25119,7 @@ var PokeList = React.createClass({
         return a.pid - b.pid;
       });
       this.setState({ pokelist: sortedArray });
-    }).bind(this));
+    }.bind(this));
   },
   render: function () {
     var listItems = this.state.pokelist.map(function (item) {
@@ -25129,7 +25135,7 @@ var PokeList = React.createClass({
 
 module.exports = PokeList;
 
-},{"../services/HttpService":241,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
+},{"../services/HttpService":243,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25147,11 +25153,11 @@ var PokeListItem = React.createClass({
     var pokemonUrl = `api/v1/pokemon/${ pid }/`;
     var types = [];
 
-    HTTP.get(pokemonUrl).then((function (data) {
+    HTTP.get(pokemonUrl).then(function (data) {
       if (this.isMounted()) {
         this.setState({ types: data["types"] });
       }
-    }).bind(this));
+    }.bind(this));
   },
   componentWillMount: function () {
     this.getPokeTypes(this.props.pid);
@@ -25253,13 +25259,15 @@ var PokeListItem = React.createClass({
 
 module.exports = PokeListItem;
 
-},{"../services/HttpService":241,"react":206,"react-router":44}],233:[function(require,module,exports){
+},{"../services/HttpService":243,"react":206,"react-router":44}],233:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var AbilityInfo = require('./details/AbilityInfo.jsx');
+var StatsInfo = require('./details/StatsInfo.jsx');
 var HTTP = require('../services/HttpService');
 
 var PokePage = React.createClass({
@@ -25271,11 +25279,11 @@ var PokePage = React.createClass({
   componentDidMount: function () {
     this.setState({ pid: this.props.params.pid });
     var pokemonUrl = `api/v1/pokemon/${ this.props.params.pid }/`;
-    HTTP.get(pokemonUrl).then((function (data) {
+    HTTP.get(pokemonUrl).then(function (data) {
       if (this.isMounted()) {
         this.setState({ pokedata: data });
       }
-    }).bind(this));
+    }.bind(this));
   },
   componentWillReceiveProps: function (nextProps) {
     this.setState({ pid: nextProps.params.pokeId });
@@ -25336,6 +25344,16 @@ var PokePage = React.createClass({
       marginTop: 20
     };
 
+    var abilitiesInfo = [];
+
+    var abilitiesDataItems = function () {
+      this.state.pokedata.map(function (item) {
+        abilitesInfo.push({ "height": item.height, "weight": item.weight, "species": item.species, "abilities": item.abilities });
+      });
+      console.log(this.abilitesInfo);
+      return this.abilitesInfo;
+    };
+
     return React.createElement(
       'div',
       null,
@@ -25390,12 +25408,13 @@ var PokePage = React.createClass({
           React.createElement(
             'span',
             { style: PokeNameStyle },
-            'Bulbasaur'
+            this.state.pokedata["name"]
           ),
           React.createElement(
             'span',
             { style: PokeNumberStyle },
-            '#1'
+            '#',
+            this.state.pid
           )
         ),
         React.createElement(
@@ -25416,227 +25435,8 @@ var PokePage = React.createClass({
               null,
               'Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun\'s rays, the seed grows progressively larger.'
             ),
-            React.createElement(
-              'div',
-              { className: 'pokemon-ability-info color-bg color-lightblue' },
-              React.createElement(
-                'div',
-                { className: 'row' },
-                React.createElement(
-                  'div',
-                  { className: 'col-xs-6' },
-                  React.createElement(
-                    'ul',
-                    null,
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-title' },
-                        'Height'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-value' },
-                        '2\' 04"'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-title' },
-                        'Weight'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-value' },
-                        '15.2 lbs'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-title' },
-                        'Gender'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-value' },
-                        React.createElement('i', { className: 'fa fa-mars' }),
-                        React.createElement('i', { className: 'fa fa-venus' })
-                      )
-                    )
-                  )
-                ),
-                React.createElement(
-                  'div',
-                  { className: 'col-xs-6' },
-                  React.createElement(
-                    'ul',
-                    null,
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-title' },
-                        'Species'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-value' },
-                        'Seed Pokemon'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'attribute-title' },
-                        'Abilities'
-                      ),
-                      React.createElement(
-                        'ul',
-                        { className: 'attribute-list' },
-                        React.createElement(
-                          'li',
-                          null,
-                          React.createElement(
-                            'a',
-                            { href: '', className: 'moreInfo' },
-                            React.createElement(
-                              'span',
-                              { className: 'attribute-value' },
-                              'Overgrow'
-                            ),
-                            React.createElement('i', { className: 'fa fa-question-circle' })
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'pokemon-stats-info' },
-              React.createElement(
-                'h3',
-                null,
-                'Stats'
-              ),
-              React.createElement(
-                'div',
-                { className: 'row' },
-                React.createElement(
-                  'div',
-                  { className: 'col-xs-6' },
-                  React.createElement(
-                    'ul',
-                    null,
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'HP'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '45'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'Attack'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '49'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'Defense'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '49'
-                      )
-                    )
-                  )
-                ),
-                React.createElement(
-                  'div',
-                  { className: 'col-xs-6' },
-                  React.createElement(
-                    'ul',
-                    null,
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'Special Attack'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '65'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'Special Defense'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '65'
-                      )
-                    ),
-                    React.createElement(
-                      'li',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-title' },
-                        'Speed'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'stat-info-value' },
-                        '45'
-                      )
-                    )
-                  )
-                )
-              )
-            )
+            React.createElement(AbilityInfo, { abilitiesData: abilitiesDataItems() }),
+            React.createElement(StatsInfo, null)
           )
         ),
         React.createElement(
@@ -25655,7 +25455,112 @@ var PokePage = React.createClass({
 
 module.exports = PokePage;
 
-},{"../services/HttpService":241,"./details/PokePic.jsx":234,"./details/Types.jsx":235,"./details/Weaknesses.jsx":236,"react":206,"react-router":44}],234:[function(require,module,exports){
+},{"../services/HttpService":243,"./details/AbilityInfo.jsx":234,"./details/PokePic.jsx":235,"./details/StatsInfo.jsx":236,"./details/Types.jsx":237,"./details/Weaknesses.jsx":238,"react":206,"react-router":44}],234:[function(require,module,exports){
+var React = require('react');
+
+var AbilityInfo = React.createClass({
+  displayName: "AbilityInfo",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "pokemon-ability-info color-bg color-lightblue" },
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-xs-6" },
+          React.createElement(
+            "ul",
+            null,
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "attribute-title" },
+                "Height"
+              ),
+              React.createElement(
+                "span",
+                { className: "attribute-value" },
+                "2' 04\""
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "attribute-title" },
+                "Weight"
+              ),
+              React.createElement(
+                "span",
+                { className: "attribute-value" },
+                "15.2 lbs"
+              )
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-xs-6" },
+          React.createElement(
+            "ul",
+            null,
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "attribute-title" },
+                "Species"
+              ),
+              React.createElement(
+                "span",
+                { className: "attribute-value" },
+                "Seed Pokemon"
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "attribute-title" },
+                "Abilities"
+              ),
+              React.createElement(
+                "ul",
+                { className: "attribute-list" },
+                React.createElement(
+                  "li",
+                  null,
+                  React.createElement(
+                    "a",
+                    { href: "", className: "moreInfo" },
+                    React.createElement(
+                      "span",
+                      { className: "attribute-value" },
+                      "Overgrow"
+                    ),
+                    React.createElement("i", { className: "fa fa-question-circle" })
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = AbilityInfo;
+
+},{"react":206}],235:[function(require,module,exports){
 var React = require('react');
 
 var PokePic = React.createClass({
@@ -25672,7 +25577,132 @@ var PokePic = React.createClass({
 
 module.exports = PokePic;
 
-},{"react":206}],235:[function(require,module,exports){
+},{"react":206}],236:[function(require,module,exports){
+var React = require('react');
+
+var StatsInfo = React.createClass({
+  displayName: "StatsInfo",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "pokemon-stats-info" },
+      React.createElement(
+        "h3",
+        null,
+        "Stats"
+      ),
+      React.createElement(
+        "div",
+        { className: "row" },
+        React.createElement(
+          "div",
+          { className: "col-xs-6" },
+          React.createElement(
+            "ul",
+            null,
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "HP"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "45"
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "Attack"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "49"
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "Defense"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "49"
+              )
+            )
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "col-xs-6" },
+          React.createElement(
+            "ul",
+            null,
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "Special Attack"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "65"
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "Special Defense"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "65"
+              )
+            ),
+            React.createElement(
+              "li",
+              null,
+              React.createElement(
+                "span",
+                { className: "stat-info-title" },
+                "Speed"
+              ),
+              React.createElement(
+                "span",
+                { className: "stat-info-value" },
+                "45"
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = StatsInfo;
+
+},{"react":206}],237:[function(require,module,exports){
 var React = require('react');
 
 var Types = React.createClass({
@@ -25719,7 +25749,7 @@ var Types = React.createClass({
 
 module.exports = Types;
 
-},{"react":206}],236:[function(require,module,exports){
+},{"react":206}],238:[function(require,module,exports){
 var React = require('react');
 
 var Weaknesses = React.createClass({
@@ -25780,7 +25810,7 @@ var Weaknesses = React.createClass({
 
 module.exports = Weaknesses;
 
-},{"react":206}],237:[function(require,module,exports){
+},{"react":206}],239:[function(require,module,exports){
 var React = require('react');
 
 var SearchPokemon = React.createClass({
@@ -25806,7 +25836,7 @@ var SearchPokemon = React.createClass({
 
 module.exports = SearchPokemon;
 
-},{"react":206}],238:[function(require,module,exports){
+},{"react":206}],240:[function(require,module,exports){
 var React = require('react');
 
 var SortByFilter = React.createClass({
@@ -25936,7 +25966,7 @@ var SortByFilter = React.createClass({
 
 module.exports = SortByFilter;
 
-},{"react":206}],239:[function(require,module,exports){
+},{"react":206}],241:[function(require,module,exports){
 var React = require('react');
 
 var SortRandom = React.createClass({
@@ -25982,14 +26012,14 @@ var SortRandom = React.createClass({
 
 module.exports = SortRandom;
 
-},{"react":206}],240:[function(require,module,exports){
+},{"react":206}],242:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":228,"react":206,"react-dom":24}],241:[function(require,module,exports){
+},{"./Routes.jsx":228,"react":206,"react-dom":24}],243:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 //var baseUrl = 'http://localhost:6060/';
 var baseUrl = 'http://pokeapi.co/';
@@ -26004,4 +26034,4 @@ var service = {
 
 module.exports = service;
 
-},{"whatwg-fetch":227}]},{},[240]);
+},{"whatwg-fetch":227}]},{},[242]);

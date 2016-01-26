@@ -4,6 +4,8 @@ var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var AbilityInfo = require('./details/AbilityInfo.jsx');
+var StatsInfo = require('./details/StatsInfo.jsx');
 var HTTP = require('../services/HttpService');
 
 var PokePage = React.createClass({
@@ -79,7 +81,18 @@ var PokePage = React.createClass({
 
         var PokeDetailWrapperStyle = {
           marginTop: 20
+        };
+
+        var abilitiesInfo = [];
+
+        var abilitiesDataItems = function() {
+          this.state.pokedata.map(function(item){
+            abilitesInfo.push({"height": item.height, "weight": item.weight, "species": item.species, "abilities": item.abilities});
+          });
+          console.log(this.abilitesInfo);
+          return this.abilitesInfo;
         }
+
 
         return (
             <div>
@@ -103,8 +116,8 @@ var PokePage = React.createClass({
               </section>
               <div className="poke-detail-wrapper" style={WrapperStyle}>
                 <section id="poke-title" style={PokeTitle}>
-                  <span style={PokeNameStyle}>Bulbasaur</span>
-                  <span style={PokeNumberStyle}>#1</span>
+                  <span style={PokeNameStyle}>{this.state.pokedata["name"]}</span>
+                  <span style={PokeNumberStyle}>#{this.state.pid}</span>
                 </section>
 
                 <section id="pokemon-detail-section" style={PokeDetailWrapperStyle}>
@@ -122,96 +135,10 @@ var PokePage = React.createClass({
                     Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.
                     </p>
 
-                    <div className="pokemon-ability-info color-bg color-lightblue">
-                      <div className="row">
-                        <div className="col-xs-6">
-                          <ul>
-                            <li>
-                              <span className="attribute-title">Height</span>
-                              <span className="attribute-value">2' 04"</span>
-                            </li>
+                    <AbilityInfo abilitiesData={abilitiesDataItems()} />
 
-                            <li>
-                              <span className="attribute-title">Weight</span>
-                              <span className="attribute-value">15.2 lbs</span>
-                            </li>
+                    <StatsInfo />
 
-                            <li>
-                              <span className="attribute-title">Gender</span>
-                              <span className="attribute-value">
-                                <i className="fa fa-mars"></i>
-                                <i className="fa fa-venus"></i>
-                              </span>
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div className="col-xs-6">
-                          <ul>
-                            <li>
-                              <span className="attribute-title">Species</span>
-                              <span className="attribute-value">Seed Pokemon</span>
-                            </li>
-                            <li>
-                              <span className="attribute-title">Abilities</span>
-
-                              <ul className="attribute-list">
-
-                                <li>
-                                  <a href="" className="moreInfo">
-                                    <span className="attribute-value">Overgrow</span>
-                                    <i className="fa fa-question-circle"></i>
-                                  </a>
-                                </li>
-
-                              </ul>
-
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div className="pokemon-stats-info">
-                      <h3>Stats</h3>
-                      <div className="row">
-
-                        <div className="col-xs-6">
-                          <ul>
-                            <li>
-                              <span className="stat-info-title">HP</span>
-                              <span className="stat-info-value">45</span>
-                            </li>
-                            <li>
-                              <span className="stat-info-title">Attack</span>
-                              <span className="stat-info-value">49</span>
-                            </li>
-                            <li>
-                              <span className="stat-info-title">Defense</span>
-                              <span className="stat-info-value">49</span>
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div className="col-xs-6">
-                          <ul>
-                            <li>
-                              <span className="stat-info-title">Special Attack</span>
-                              <span className="stat-info-value">65</span>
-                            </li>
-                            <li>
-                              <span className="stat-info-title">Special Defense</span>
-                              <span className="stat-info-value">65</span>
-                            </li>
-                            <li>
-                              <span className="stat-info-title">Speed</span>
-                              <span className="stat-info-value">45</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </section>
 
