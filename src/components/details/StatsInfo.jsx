@@ -12,15 +12,15 @@ var StatsInfo = React.createClass({
             <ul>
               <li>
                 <span className="stat-info-title">HP</span>
-                <span className="stat-info-value">45</span>
+                <span className="stat-info-value">{this.props.hp}</span>
               </li>
               <li>
                 <span className="stat-info-title">Attack</span>
-                <span className="stat-info-value">49</span>
+                <span className="stat-info-value">{this.props.attack}</span>
               </li>
               <li>
                 <span className="stat-info-title">Defense</span>
-                <span className="stat-info-value">49</span>
+                <span className="stat-info-value">{this.props.defense}</span>
               </li>
             </ul>
           </div>
@@ -29,15 +29,15 @@ var StatsInfo = React.createClass({
             <ul>
               <li>
                 <span className="stat-info-title">Special Attack</span>
-                <span className="stat-info-value">65</span>
+                <span className="stat-info-value">{this.props.sp_atk}</span>
               </li>
               <li>
                 <span className="stat-info-title">Special Defense</span>
-                <span className="stat-info-value">65</span>
+                <span className="stat-info-value">{this.props.sp_def}</span>
               </li>
               <li>
                 <span className="stat-info-title">Speed</span>
-                <span className="stat-info-value">45</span>
+                <span className="stat-info-value">{this.props.speed}</span>
               </li>
             </ul>
           </div>

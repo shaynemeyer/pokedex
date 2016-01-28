@@ -18,7 +18,7 @@ var PokePage = React.createClass({
       HTTP.get(pokemonUrl)
       .then(function(data){
         if (this.isMounted()) {
-          this.setState({pokedata: data});
+          this.setState({pokedata: [data]});
         }
       }.bind(this));
     },
@@ -82,18 +82,31 @@ var PokePage = React.createClass({
         var PokeDetailWrapperStyle = {
           marginTop: 20
         };
+        console.log(this.state.pokedata);
+        var abilitiesInfo = this.state.pokedata.map(function(item){
+          return <AbilityInfo height={item.height} weight={item.weight} species={item.species} abilities={item.abilities} />;
+        });
 
-        var abilitiesInfo = [];
+        var statsInfo = this.state.pokedata.map(function(item){
+          return <StatsInfo hp={item.hp} attack={item.attack} defense={item.defense} speed={item.speed} sp_atk={item.sp_atk} sp_def={item.sp_def}  />;
+        });
 
-        var abilitiesDataItems = function() {
-          this.state.pokedata.map(function(item){
-            abilitesInfo.push({"height": item.height, "weight": item.weight, "species": item.species, "abilities": item.abilities});
-          });
-          console.log(this.abilitesInfo);
-          return this.abilitesInfo;
+        var pokename = this.state.pokedata.map(function(item){
+          return <span style={PokeNameStyle}>{item.name}</span>;
+        });
+
+        function parseDescription(desc){
+          var url = desc[0]["resource_uri"];
+          var descripton = [];
+          HTTP.get(url)
+          .then(function(data){
+            return data;
+          }.bind(this));
         }
 
-
+        var descriptions = this.state.pokedata.map(function(item){
+          return <p>{parseDescription(item.descriptions)}</p>;
+        });
         return (
             <div>
 
@@ -116,7 +129,7 @@ var PokePage = React.createClass({
               </section>
               <div className="poke-detail-wrapper" style={WrapperStyle}>
                 <section id="poke-title" style={PokeTitle}>
-                  <span style={PokeNameStyle}>{this.state.pokedata["name"]}</span>
+                  {pokename}
                   <span style={PokeNumberStyle}>#{this.state.pid}</span>
                 </section>
 
@@ -131,13 +144,12 @@ var PokePage = React.createClass({
 
                   </div>
                   <div className="version-descriptions col-xs-6">
-                    <p>
-                    Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.
-                    </p>
 
-                    <AbilityInfo abilitiesData={abilitiesDataItems()} />
+                    {descriptions}
 
-                    <StatsInfo />
+                    {abilitiesInfo}
+
+                    {statsInfo}
 
                   </div>
                 </section>
