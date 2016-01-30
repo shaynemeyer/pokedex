@@ -1,4 +1,5 @@
 var React = require('react');
+var HTTP = require('../../services/HttpService');
 
 var Weaknesses = React.createClass({
 	getInitialState: function(){
@@ -6,18 +7,22 @@ var Weaknesses = React.createClass({
 	},
 	componentDidMount: function() {
 		var weakness = [];
-
+		var urls = [];
 		this.props.types.map(function(item){
-			console.log(item);
+			urls.push({"resource_uri": item.resource_uri})
 		});
+		urls.map(function(item){
+			HTTP.get(item.resource_uri)
+			.then(function(data){
+				data.weakness.map(function(items){
+					//console.log(items.name);
+					weakness.push({"name": items.name});
+				});
 
+				this.setState({weaknesses: weakness});
 
-		// HTTP.get(this.props.uri)
-		// .then(function(data){
-		// 	if (this.isMounted()) {
-		// 		this.setState({description: data.description});
-		// 	}
-		// }.bind(this));
+			}.bind(this));
+		});
 	},
 	render: function(){
 		var weaknesses = this.state.weaknesses.map(function(item){

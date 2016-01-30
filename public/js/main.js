@@ -25783,49 +25783,53 @@ module.exports = Types;
 
 },{"react":206}],239:[function(require,module,exports){
 var React = require('react');
+var HTTP = require('../../services/HttpService');
 
 var Weaknesses = React.createClass({
-	displayName: "Weaknesses",
+	displayName: 'Weaknesses',
 
 	getInitialState: function () {
 		return { weaknesses: [] };
 	},
 	componentDidMount: function () {
 		var weakness = [];
-
+		var urls = [];
 		this.props.types.map(function (item) {
-			console.log(item);
+			urls.push({ "resource_uri": item.resource_uri });
 		});
+		urls.map(function (item) {
+			HTTP.get(item.resource_uri).then((function (data) {
+				data.weakness.map(function (items) {
+					//console.log(items.name);
+					weakness.push({ "name": items.name });
+				});
 
-		// HTTP.get(this.props.uri)
-		// .then(function(data){
-		// 	if (this.isMounted()) {
-		// 		this.setState({description: data.description});
-		// 	}
-		// }.bind(this));
+				this.setState({ weaknesses: weakness });
+			}).bind(this));
+		});
 	},
 	render: function () {
 		var weaknesses = this.state.weaknesses.map(function (item) {
 			return React.createElement(
-				"li",
+				'li',
 				{ key: item.resource_uri, className: `background-color-${ item.name }` },
 				React.createElement(
-					"span",
-					{ className: "capitalize" },
+					'span',
+					{ className: 'capitalize' },
 					item.name
 				)
 			);
 		});
 		return React.createElement(
-			"div",
-			{ className: "dtm-weaknesses" },
+			'div',
+			{ className: 'dtm-weaknesses' },
 			React.createElement(
-				"h3",
+				'h3',
 				null,
-				"Weaknesses"
+				'Weaknesses'
 			),
 			React.createElement(
-				"ul",
+				'ul',
 				null,
 				weaknesses
 			)
@@ -25835,7 +25839,7 @@ var Weaknesses = React.createClass({
 
 module.exports = Weaknesses;
 
-},{"react":206}],240:[function(require,module,exports){
+},{"../../services/HttpService":244,"react":206}],240:[function(require,module,exports){
 var React = require('react');
 
 var SearchPokemon = React.createClass({
