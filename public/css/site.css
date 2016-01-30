@@ -107,6 +107,10 @@ ul, ol {
   margin-left: 10px;
 }
 
+.capitalize {
+  text-transform: capitalize;;
+}
+
 /* search box */
 #search-box {
   padding-top: 20px;

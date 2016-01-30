@@ -25058,7 +25058,7 @@ var HomePage = React.createClass({
 
 module.exports = HomePage;
 
-},{"./PokeList.jsx":231,"./forms/SearchPokemon.jsx":239,"./forms/SortByFilter.jsx":240,"./forms/SortRandom.jsx":241,"react":206,"react-router":44}],231:[function(require,module,exports){
+},{"./PokeList.jsx":231,"./forms/SearchPokemon.jsx":240,"./forms/SortByFilter.jsx":241,"./forms/SortRandom.jsx":242,"react":206,"react-router":44}],231:[function(require,module,exports){
 var React = require('react');
 var Reflux = require('reflux');
 var PokeListItem = require('./PokeListItem.jsx');
@@ -25129,7 +25129,7 @@ var PokeList = React.createClass({
 
 module.exports = PokeList;
 
-},{"../services/HttpService":243,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
+},{"../services/HttpService":244,"./PokeListItem.jsx":232,"react":206,"reflux":223}],232:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
@@ -25253,13 +25253,14 @@ var PokeListItem = React.createClass({
 
 module.exports = PokeListItem;
 
-},{"../services/HttpService":243,"react":206,"react-router":44}],233:[function(require,module,exports){
+},{"../services/HttpService":244,"react":206,"react-router":44}],233:[function(require,module,exports){
 var React = require('react');
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var Description = require('./details/Description.jsx');
 var AbilityInfo = require('./details/AbilityInfo.jsx');
 var StatsInfo = require('./details/StatsInfo.jsx');
 var HTTP = require('../services/HttpService');
@@ -25337,7 +25338,7 @@ var PokePage = React.createClass({
     var PokeDetailWrapperStyle = {
       marginTop: 20
     };
-    console.log(this.state.pokedata);
+
     var abilitiesInfo = this.state.pokedata.map(function (item) {
       return React.createElement(AbilityInfo, { height: item.height, weight: item.weight, species: item.species, abilities: item.abilities });
     });
@@ -25354,20 +25355,16 @@ var PokePage = React.createClass({
       );
     });
 
-    function parseDescription(desc) {
-      var url = desc[0]["resource_uri"];
-      var descripton = [];
-      HTTP.get(url).then((function (data) {
-        return data;
-      }).bind(this));
-    }
-
     var descriptions = this.state.pokedata.map(function (item) {
-      return React.createElement(
-        'p',
-        null,
-        parseDescription(item.descriptions)
-      );
+      return React.createElement(Description, { uri: item.descriptions[0]['resource_uri'] });
+    });
+
+    var types = this.state.pokedata.map(function (item) {
+      return React.createElement(Types, { types: item.types });
+    });
+
+    var weakenesses = this.state.pokedata.map(function (item) {
+      return React.createElement(Weaknesses, { types: item.types });
     });
     return React.createElement(
       'div',
@@ -25435,8 +25432,8 @@ var PokePage = React.createClass({
             'div',
             { className: 'col-xs-6' },
             React.createElement(PokePic, { pid: this.state.pid }),
-            React.createElement(Types, null),
-            React.createElement(Weaknesses, null)
+            types,
+            weakenesses
           ),
           React.createElement(
             'div',
@@ -25462,7 +25459,7 @@ var PokePage = React.createClass({
 
 module.exports = PokePage;
 
-},{"../services/HttpService":243,"./details/AbilityInfo.jsx":234,"./details/PokePic.jsx":235,"./details/StatsInfo.jsx":236,"./details/Types.jsx":237,"./details/Weaknesses.jsx":238,"react":206,"react-router":44}],234:[function(require,module,exports){
+},{"../services/HttpService":244,"./details/AbilityInfo.jsx":234,"./details/Description.jsx":235,"./details/PokePic.jsx":236,"./details/StatsInfo.jsx":237,"./details/Types.jsx":238,"./details/Weaknesses.jsx":239,"react":206,"react-router":44}],234:[function(require,module,exports){
 var React = require('react');
 
 var AbilityInfo = React.createClass({
@@ -25574,6 +25571,35 @@ module.exports = AbilityInfo;
 
 },{"react":206}],235:[function(require,module,exports){
 var React = require('react');
+var HTTP = require('../../services/HttpService');
+
+var Description = React.createClass({
+	displayName: 'Description',
+
+	getInitialState: function () {
+		return { description: "" };
+	},
+	componentDidMount: function () {
+		HTTP.get(this.props.uri).then((function (data) {
+			if (this.isMounted()) {
+				this.setState({ description: data.description });
+			}
+		}).bind(this));
+	},
+	render: function () {
+
+		return React.createElement(
+			'p',
+			null,
+			this.state.description
+		);
+	}
+});
+
+module.exports = Description;
+
+},{"../../services/HttpService":244,"react":206}],236:[function(require,module,exports){
+var React = require('react');
 
 var PokePic = React.createClass({
 	displayName: "PokePic",
@@ -25589,7 +25615,7 @@ var PokePic = React.createClass({
 
 module.exports = PokePic;
 
-},{"react":206}],236:[function(require,module,exports){
+},{"react":206}],237:[function(require,module,exports){
 var React = require('react');
 
 var StatsInfo = React.createClass({
@@ -25714,13 +25740,24 @@ var StatsInfo = React.createClass({
 
 module.exports = StatsInfo;
 
-},{"react":206}],237:[function(require,module,exports){
+},{"react":206}],238:[function(require,module,exports){
 var React = require('react');
 
 var Types = React.createClass({
 	displayName: "Types",
 
 	render: function () {
+		var types = this.props.types.map(function (item) {
+			return React.createElement(
+				"li",
+				{ key: item.resource_uri, className: `background-color-${ item.name }` },
+				React.createElement(
+					"span",
+					{ className: "capitalize" },
+					item.name
+				)
+			);
+		});
 		return React.createElement(
 			"div",
 			{ className: "pokedex-pokemon-attributes" },
@@ -25735,24 +25772,7 @@ var Types = React.createClass({
 				React.createElement(
 					"ul",
 					null,
-					React.createElement(
-						"li",
-						{ className: "background-color-Grass" },
-						React.createElement(
-							"span",
-							null,
-							"Grass"
-						)
-					),
-					React.createElement(
-						"li",
-						{ className: "background-color-Poison middle" },
-						React.createElement(
-							"span",
-							null,
-							"Poison"
-						)
-					)
+					types
 				)
 			)
 		);
@@ -25761,13 +25781,41 @@ var Types = React.createClass({
 
 module.exports = Types;
 
-},{"react":206}],238:[function(require,module,exports){
+},{"react":206}],239:[function(require,module,exports){
 var React = require('react');
 
 var Weaknesses = React.createClass({
 	displayName: "Weaknesses",
 
+	getInitialState: function () {
+		return { weaknesses: [] };
+	},
+	componentDidMount: function () {
+		var weakness = [];
+
+		this.props.types.map(function (item) {
+			console.log(item);
+		});
+
+		// HTTP.get(this.props.uri)
+		// .then(function(data){
+		// 	if (this.isMounted()) {
+		// 		this.setState({description: data.description});
+		// 	}
+		// }.bind(this));
+	},
 	render: function () {
+		var weaknesses = this.state.weaknesses.map(function (item) {
+			return React.createElement(
+				"li",
+				{ key: item.resource_uri, className: `background-color-${ item.name }` },
+				React.createElement(
+					"span",
+					{ className: "capitalize" },
+					item.name
+				)
+			);
+		});
 		return React.createElement(
 			"div",
 			{ className: "dtm-weaknesses" },
@@ -25779,42 +25827,7 @@ var Weaknesses = React.createClass({
 			React.createElement(
 				"ul",
 				null,
-				React.createElement(
-					"li",
-					{ className: "background-color-Fire first" },
-					React.createElement(
-						"span",
-						null,
-						"Fire"
-					)
-				),
-				React.createElement(
-					"li",
-					{ className: "background-color-Flying middle" },
-					React.createElement(
-						"span",
-						null,
-						"Flying"
-					)
-				),
-				React.createElement(
-					"li",
-					{ className: "background-color-Ice last" },
-					React.createElement(
-						"span",
-						null,
-						"Ice"
-					)
-				),
-				React.createElement(
-					"li",
-					{ className: "background-color-Psychic first" },
-					React.createElement(
-						"span",
-						null,
-						"Psychic"
-					)
-				)
+				weaknesses
 			)
 		);
 	}
@@ -25822,7 +25835,7 @@ var Weaknesses = React.createClass({
 
 module.exports = Weaknesses;
 
-},{"react":206}],239:[function(require,module,exports){
+},{"react":206}],240:[function(require,module,exports){
 var React = require('react');
 
 var SearchPokemon = React.createClass({
@@ -25848,7 +25861,7 @@ var SearchPokemon = React.createClass({
 
 module.exports = SearchPokemon;
 
-},{"react":206}],240:[function(require,module,exports){
+},{"react":206}],241:[function(require,module,exports){
 var React = require('react');
 
 var SortByFilter = React.createClass({
@@ -25978,7 +25991,7 @@ var SortByFilter = React.createClass({
 
 module.exports = SortByFilter;
 
-},{"react":206}],241:[function(require,module,exports){
+},{"react":206}],242:[function(require,module,exports){
 var React = require('react');
 
 var SortRandom = React.createClass({
@@ -26024,14 +26037,14 @@ var SortRandom = React.createClass({
 
 module.exports = SortRandom;
 
-},{"react":206}],242:[function(require,module,exports){
+},{"react":206}],243:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":228,"react":206,"react-dom":24}],243:[function(require,module,exports){
+},{"./Routes.jsx":228,"react":206,"react-dom":24}],244:[function(require,module,exports){
 var Fetch = require('whatwg-fetch');
 //var baseUrl = 'http://localhost:6060/';
 var baseUrl = 'http://pokeapi.co/';
@@ -26046,4 +26059,4 @@ var service = {
 
 module.exports = service;
 
-},{"whatwg-fetch":227}]},{},[242]);
+},{"whatwg-fetch":227}]},{},[243]);

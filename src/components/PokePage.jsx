@@ -4,6 +4,7 @@ var Link = ReactRouter.Link;
 var PokePic = require('./details/PokePic.jsx');
 var Types = require('./details/Types.jsx');
 var Weaknesses = require('./details/Weaknesses.jsx');
+var Description = require('./details/Description.jsx');
 var AbilityInfo = require('./details/AbilityInfo.jsx');
 var StatsInfo = require('./details/StatsInfo.jsx');
 var HTTP = require('../services/HttpService');
@@ -82,7 +83,7 @@ var PokePage = React.createClass({
         var PokeDetailWrapperStyle = {
           marginTop: 20
         };
-        console.log(this.state.pokedata);
+
         var abilitiesInfo = this.state.pokedata.map(function(item){
           return <AbilityInfo height={item.height} weight={item.weight} species={item.species} abilities={item.abilities} />;
         });
@@ -95,17 +96,16 @@ var PokePage = React.createClass({
           return <span style={PokeNameStyle}>{item.name}</span>;
         });
 
-        function parseDescription(desc){
-          var url = desc[0]["resource_uri"];
-          var descripton = [];
-          HTTP.get(url)
-          .then(function(data){
-            return data;
-          }.bind(this));
-        }
-
         var descriptions = this.state.pokedata.map(function(item){
-          return <p>{parseDescription(item.descriptions)}</p>;
+          return <Description uri={item.descriptions[0]['resource_uri']}/>;
+        });
+
+        var types = this.state.pokedata.map(function(item){
+          return <Types types={item.types}/>;
+        });
+
+        var weakenesses = this.state.pokedata.map(function(item){
+          return <Weaknesses types={item.types}/>;
         });
         return (
             <div>
@@ -138,9 +138,9 @@ var PokePage = React.createClass({
 
                     <PokePic pid={this.state.pid} />
 
-                    <Types />
+                    {types}
 
-                    <Weaknesses />
+                    {weakenesses}
 
                   </div>
                   <div className="version-descriptions col-xs-6">
