@@ -27,7 +27,7 @@ var PokeList = React.createClass({
         for(var pokemon in data.pokemon) {
             var name = data.pokemon[pokemon]["name"];
             var pid = extractPid(data.pokemon[pokemon]["resource_uri"]);
-            if(pid <= 720){
+            if(pid <= 718){
               // we only have images for up to 720 so only include those pokemon.
               arr.push({"name": name,"pid": pid}); // todo: add fetch types.
             }

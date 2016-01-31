@@ -25087,7 +25087,7 @@ var PokeList = React.createClass({
       for (var pokemon in data.pokemon) {
         var name = data.pokemon[pokemon]["name"];
         var pid = extractPid(data.pokemon[pokemon]["resource_uri"]);
-        if (pid <= 720) {
+        if (pid <= 718) {
           // we only have images for up to 720 so only include those pokemon.
           arr.push({ "name": name, "pid": pid }); // todo: add fetch types.
         }
@@ -25798,13 +25798,22 @@ var Weaknesses = React.createClass({
 			var uri = urls[url].resource_uri;
 			HTTP.get(uri).then((function (data) {
 				for (var weak in data.weakness) {
+
 					var name = data.weakness[weak].name;
-					if (this.state.weaknesses.indexOf(name) === -1) {
+					if (!this.isDupe(this.state.weaknesses, name)) {
 						this.addWeakness(name);
 					}
 				}
 			}).bind(this));
 		}
+	},
+	isDupe: function (arr, name) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i].name === name) {
+				return true;
+			}
+		}
+		return false;
 	},
 	addWeakness: function (name) {
 		var newArray = this.state.weaknesses.slice();

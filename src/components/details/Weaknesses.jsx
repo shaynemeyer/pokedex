@@ -17,13 +17,23 @@ var Weaknesses = React.createClass({
 			HTTP.get(uri)
 			.then(function(data){
 				for(var weak in data.weakness){
+
+
 					var name = data.weakness[weak].name;
-					if (this.state.weaknesses.indexOf(name) === -1) {
+					if (!this.isDupe(this.state.weaknesses, name)) {
 						this.addWeakness(name);
 					}
 				}
 			}.bind(this));
 		}
+	},
+	isDupe: function(arr, name){
+		for(var i = 0; i < arr.length; i++){
+			if(arr[i].name === name) {
+				return true;
+			}
+		}
+		return false;
 	},
 	addWeakness: function(name) {
 		var newArray = this.state.weaknesses.slice();
