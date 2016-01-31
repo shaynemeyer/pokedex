@@ -4,18 +4,15 @@ var Types = React.createClass({
 
 	render: function(){
 		var types = this.props.types.map(function(item){
-			return (
-				<li key={item.resource_uri} className={`background-color-${item.name}`}>
-					<span className="capitalize">{item.name}</span>
-				</li>);
+			return <button className={`btn background-color-${item.name} capitalize`}>{item.name}</button>;
 		});
 		return(
 	        <div className="pokedex-pokemon-attributes">
 	          	<div className="dtm-type">
 		            <h3>Type</h3>
-		            <ul>
+		            <div>
 									{types}
-		            </ul>
+		            </div>
 	          	</div>
 	        </div>
 		);

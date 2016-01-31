@@ -6,37 +6,38 @@ var Weaknesses = React.createClass({
 		return {weaknesses: []};
 	},
 	componentDidMount: function() {
-		var weakness = [];
+		var weaknessArr = [];
 		var urls = [];
 		this.props.types.map(function(item){
 			urls.push({"resource_uri": item.resource_uri})
 		});
-		urls.map(function(item){
-			HTTP.get(item.resource_uri)
+
+		for(var url in urls) {
+			var uri = urls[url].resource_uri;
+			HTTP.get(uri)
 			.then(function(data){
-				data.weakness.map(function(items){
-					//console.log(items.name);
-					weakness.push({"name": items.name});
-				});
-
-				this.setState({weaknesses: weakness});
-
+				for(var weak in data.weakness){
+					var name = data.weakness[weak].name;
+					this.addWeakness(name);
+				}
 			}.bind(this));
-		});
+		}
+	},
+	addWeakness: function(name) {
+		var newArray = this.state.weaknesses.slice();
+		newArray.push({"name": name});
+		this.setState({weaknesses:newArray});
 	},
 	render: function(){
 		var weaknesses = this.state.weaknesses.map(function(item){
-			return (
-				<li key={item.resource_uri} className={`background-color-${item.name}`}>
-					<span className="capitalize">{item.name}</span>
-				</li>);
+			return <button key={item.key} className={`btn background-color-${item.name} capitalize`}>{item.name}</button>;
 		});
 		return(
 			<div className="dtm-weaknesses">
 				<h3>Weaknesses</h3>
-				<ul>
+				<div>
 					{weaknesses}
-				</ul>
+				</div>
 			</div>
 		);
 	}
