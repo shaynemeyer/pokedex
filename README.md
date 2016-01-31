@@ -12,6 +12,3 @@ A Pokédex clone using ReactJS.
 * Z-A
 * Search by name
 * Search by number
-
-## Pokemon Detail
-* Weaknesses - fix so that weaknesses do not appear more than once. http://localhost:8080/#/pokemon/389  "Ice" appears twice.

@@ -18,7 +18,9 @@ var Weaknesses = React.createClass({
 			.then(function(data){
 				for(var weak in data.weakness){
 					var name = data.weakness[weak].name;
-					this.addWeakness(name);
+					if (this.state.weaknesses.indexOf(name) === -1) {
+						this.addWeakness(name);
+					}
 				}
 			}.bind(this));
 		}
