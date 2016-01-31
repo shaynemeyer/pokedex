@@ -12,3 +12,6 @@ A Pokédex clone using ReactJS.
 * Z-A
 * Search by name
 * Search by number
+
+## Pokemon Detail
+* Implement Next and Previous Pokemon
