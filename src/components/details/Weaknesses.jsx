@@ -17,8 +17,6 @@ var Weaknesses = React.createClass({
 			HTTP.get(uri)
 			.then(function(data){
 				for(var weak in data.weakness){
-
-
 					var name = data.weakness[weak].name;
 					if (!this.isDupe(this.state.weaknesses, name)) {
 						this.addWeakness(name);
