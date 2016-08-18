@@ -1,6 +1,15 @@
 # Pokédex clone
 A Pokédex clone using ReactJS.
 
+# To run
+In terminal navigate to the public folder
+
+    cd public
+
+Run simple webserver (Need Python installed)
+
+  python -m SimpleHTTPServer
+
 # Project issues
 ## All
 * move all data to reflux store
